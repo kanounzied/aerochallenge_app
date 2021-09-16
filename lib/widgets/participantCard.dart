@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
-import 'package:aerochallenge_app/screens/obstacles_list.dart';
+import 'package:aerochallenge_app/screens/obstacles_list/obstacles_list.dart';
 import 'package:flutter/material.dart';
 
 class ParticipantCard extends StatelessWidget {
