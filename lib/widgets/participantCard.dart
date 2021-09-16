@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
-import 'package:aerochallenge_app/screens/obstacles_list/obstacles_list.dart';
+import 'package:aerochallenge_app/screens/start_page/start_page.dart';
 import 'package:flutter/material.dart';
 
 class ParticipantCard extends StatelessWidget {
@@ -50,7 +48,7 @@ class ParticipantCard extends StatelessWidget {
             print(equipe.hasPlayed);
             equipe.hasPlayed == false ? Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ObstaclesList(equipe: equipe)),
+              MaterialPageRoute(builder: (context) => StartPage()),
             ):print('do nothing');
           },
           child: Padding(
@@ -114,17 +112,7 @@ class ParticipantCard extends StatelessWidget {
               
             ),
         )
-        ),
-      // decoration: new BoxDecoration(
-      //                   boxShadow: [
-      //                     new BoxShadow(
-      //                       color: Colors.black.withOpacity(0.5),
-      //                       blurRadius: 10,
-      //                       spreadRadius: -5,
-      //                       offset: Offset(0,7)
-      //                     ),
-      //                   ],
-      //                 ),
+      ),
     );
   }
 
