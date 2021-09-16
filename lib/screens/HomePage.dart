@@ -6,6 +6,9 @@ import 'dart:math' as math;
 import 'package:aerochallenge_app/wing_icon_icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../config/responsive_size.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ Key key }) : super(key: key);
@@ -31,7 +34,11 @@ class _HomePageState extends State<HomePage> {
   // ];
 
   List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_Blue];
-
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -41,10 +48,13 @@ class _HomePageState extends State<HomePage> {
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
           backgroundColor: DARK_COLOR,
-          title: Center(
-            child: Image.asset(
-              'assets/LogoWhite.png',
-              width: SizeConfig.screenWidth * 0.4,
+          title: Padding(
+            padding: EdgeInsets.only(top: SizeConfig.defaultSize * 1.5),
+            child: Center(
+              child: Image.asset(
+                'assets/LogoWhite.png',
+                width: SizeConfig.screenWidth * 0.4,
+              ),
             ),
           ),
           centerTitle: true,

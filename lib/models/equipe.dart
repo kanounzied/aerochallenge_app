@@ -1,3 +1,4 @@
+// JSON to Dart
 class Equipe{
 
   String name;
