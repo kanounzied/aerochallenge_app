@@ -82,15 +82,15 @@ class ParticipantCard extends StatelessWidget {
                           Text(
                             equipe.name,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: _10 * 1.8,
                               color: Colors.black87,
                             ),
                           ),
-                          SizedBox(height: 6.0,),
+                          SizedBox(height: _10 * 0.6,),
                           Text(
                             equipe.chef,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: _10 * 1.2,
                               color: Colors.black38,
                             ),
                           ),
