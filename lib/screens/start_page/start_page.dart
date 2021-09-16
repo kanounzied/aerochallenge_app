@@ -13,8 +13,6 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
-
     List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_Blue];
 
     SizeConfig sizeConfig = new SizeConfig();

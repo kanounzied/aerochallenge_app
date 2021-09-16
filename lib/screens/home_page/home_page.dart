@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_Blue];
 
   @override
-  void initState() async {
+  void initState() {
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     super.initState();
   }
