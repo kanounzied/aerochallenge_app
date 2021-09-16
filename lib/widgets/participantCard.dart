@@ -102,7 +102,7 @@ class ParticipantCard extends StatelessWidget {
                       child: Center(child: Text(
                           equipe.hasPlayed ? 'finished': '',
                           style: TextStyle(
-                            color: AERO_RED
+                            color: AERO_Blue,
                           ),
                         ),
                       ),
