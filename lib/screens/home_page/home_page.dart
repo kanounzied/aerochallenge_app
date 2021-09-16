@@ -42,25 +42,18 @@ class _HomePageState extends State<HomePage> {
 
     sizeConfig.init(context);
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
-        child: AppBar(
-          backgroundColor: DARK_COLOR,
-          title: Padding(
-            padding: EdgeInsets.only(top: SizeConfig.defaultSize * 1.5),
-            child: Center(
-              child: Image.asset(
-                'assets/LogoWhite.png',
-                width: SizeConfig.screenWidth * 0.4,
-              ),
-            ),
-          ),
-          centerTitle: true,
-          )
+      appBar: AppBar(
+        toolbarHeight: SizeConfig.defaultSize * 7.0,
+        backgroundColor: DARK_COLOR,
+        title: Image.asset(
+          'assets/LogoWhite.png',
+          width: SizeConfig.screenWidth * 0.4,
+        ),
+        centerTitle: true,
         ),
       backgroundColor: DARK_COLOR,
       body: Padding(
-        padding: EdgeInsets.all(12.0),
+        padding: EdgeInsets.all(SizeConfig.defaultSize * 1.2),
         child:
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,12 +66,12 @@ class _HomePageState extends State<HomePage> {
                     text: TextSpan(
                       children: [
                         WidgetSpan(
-                          child: Icon(WingIcon.feather_wing, size: 24, color: AERO_YELLOW,),
+                          child: Icon(WingIcon.feather_wing, size: SizeConfig.defaultSize * 2.4, color: AERO_YELLOW,),
                         ),
                         TextSpan(
                           text: '  aerochallenge edition  ',
                           style: TextStyle(
-                            fontSize: 21,
+                            fontSize: SizeConfig.defaultSize * 2.1,
                             color: AERO_YELLOW,
                             fontFamily: 'playfairDisplay'
                           ),
@@ -87,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                           child: Transform(
                             alignment: Alignment.center,
                             transform: Matrix4.rotationY(math.pi),
-                            child: Icon(WingIcon.feather_wing, size: 24,color: AERO_YELLOW,),
+                            child: Icon(WingIcon.feather_wing, size: SizeConfig.defaultSize * 2.4,color: AERO_YELLOW,),
                           ),
                         ),
                       ],
