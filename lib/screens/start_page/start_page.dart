@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
+import 'package:aerochallenge_app/widgets/aero_button.dart';
 import 'dart:math' as math;
 import 'package:aerochallenge_app/wing_icon_icons.dart';
 import 'package:flutter/material.dart';
@@ -76,13 +77,16 @@ class StartPage extends StatelessWidget {
               Expanded(
                 flex: 6,
                 child: Center(
-                  child: Text('salem')
-                )
+                  child: Image.asset(
+                    'assets/drone.png',
+                    width: SizeConfig.screenWidth * 0.65,
+                  ),
+                ),
               ),
               Expanded(
                 flex: 1,
-                child: Center(child: Text('salem'),),
-                )
+                child: AeroButton(),
+                ),
             ],
           ),
       )
