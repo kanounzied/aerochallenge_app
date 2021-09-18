@@ -1,95 +1,72 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
+import 'package:aerochallenge_app/screens/obstacles_list/obstacles_list.dart';
 import 'package:aerochallenge_app/widgets/aero_button.dart';
+import 'package:aerochallenge_app/widgets/aeroday_edition_text.dart';
+import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
+import 'package:aerochallenge_app/widgets/custom_page_route.dart';
 import 'dart:math' as math;
 import 'package:aerochallenge_app/wing_icon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class StartPage extends StatelessWidget {
+  const StartPage({this.equipe});
 
-  const StartPage({ Key key }) : super(key: key);
-  
+  final Equipe equipe;
+
   @override
   Widget build(BuildContext context) {
-    
-    List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_Blue];
+    List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_BLUE];
 
     SizeConfig sizeConfig = new SizeConfig();
     sizeConfig.init(context);
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
-        child: AppBar(
-          backgroundColor: DARK_COLOR,
-          title: Padding(
-            padding: EdgeInsets.only(top: SizeConfig.defaultSize * 1.5),
-            child: Center(
-              child: Image.asset(
-                'assets/LogoWhite.png',
-                width: SizeConfig.screenWidth * 0.4,
-              ),
-            ),
-          ),
-          centerTitle: true,
-          )
-        ),
+      appBar: AppbarAeroday.getAppbar(),
       backgroundColor: DARK_COLOR,
       body: Padding(
         padding: EdgeInsets.all(12.0),
-        child:
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
-                          child: Icon(WingIcon.feather_wing, size: 24, color: AERO_YELLOW,),
-                        ),
-                        TextSpan(
-                          text: '  aerochallenge edition  ',
-                          style: TextStyle(
-                            fontSize: 21,
-                            color: AERO_YELLOW,
-                            fontFamily: 'playfairDisplay'
-                          ),
-                        ),
-                        WidgetSpan(
-                          child: Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(math.pi),
-                            child: Icon(WingIcon.feather_wing, size: 24,color: AERO_YELLOW,),
-                          ),
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.center,
-                  ) 
-                )
-              ),
-              Expanded(
-                flex: 6,
-                child: Center(
-                  child: Image.asset(
-                    'assets/drone.png',
-                    width: SizeConfig.screenWidth * 0.65,
-                  ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Expanded(flex: 1, child: Center(child: AerodayEditionText())),
+            Expanded(
+              flex: 6,
+              child: Center(
+                child: Image.asset(
+                  'assets/drone.png',
+                  width: SizeConfig.screenWidth * 0.65,
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: AeroButton(),
-                ),
-            ],
-          ),
-      )
+            ),
+            Flexible(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 2),
+                child: AeroButton(
+                    content: Text('Start Game!'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        CustomPageRoute(
+                            child: ObstaclesList(
+                            equipe: equipe,
+                          ),
+                        ),
+                      );
+                    },
+                    width: SizeConfig.screenWidth * 0.8,
+                    height: SizeConfig.defaultSize * 6,
+                    color: AERO_RED,
+                    textColor: LIGHT_COLOR),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
