@@ -23,37 +23,42 @@ class _GameState extends State<Game> {
     return Scaffold(
       appBar: AppbarAeroday.getAppbar(),
       backgroundColor: DARK_COLOR,
-      body: Column(
-        children: [
-          SizedBox(
-            height: SizeConfig.defaultSize * 1.5,
-          ),
-          Center(child: AerodayEditionText()),
-          SizedBox(
-            height: SizeConfig.defaultSize * 2.5,
-          ),
-          Center(
-            child: TimerAero(),
-          ),
-          SizedBox(
-            height: SizeConfig.defaultSize * 2,
-          ),
-          CarouselSlider(
-            options: CarouselOptions(
-              enableInfiniteScroll: false,
-              height: SizeConfig.screenHeight * 0.75,
-              viewportFraction: 1,
+      body:
+      // Padding(
+      //   padding: EdgeInsets.all(SizeConfig.defaultSize * 1.2),
+      //   child:
+        Column(
+          children: [
+            SizedBox(
+              height: SizeConfig.defaultSize * 1.5,
             ),
-            items: obsWidgets.map((widget) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return widget;
-                },
-              );
-            }).toList(),
-          )
-        ],
-      ),
+            Center(child: AerodayEditionText()),
+            SizedBox(
+              height: SizeConfig.defaultSize * 2.5,
+            ),
+            Center(
+              child: TimerAero(),
+            ),
+            SizedBox(
+              height: SizeConfig.defaultSize * 2,
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                enableInfiniteScroll: false,
+                height: SizeConfig.screenHeight * 0.75,
+                viewportFraction: 1,
+              ),
+              items: obsWidgets.map((widget) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return widget;
+                  },
+                );
+              }).toList(),
+            )
+          ],
+        ),
+      // ),
     );
   }
 }
