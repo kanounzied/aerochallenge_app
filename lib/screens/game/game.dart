@@ -42,6 +42,7 @@ class _GameState extends State<Game> {
             ),
             CarouselSlider(
               options: CarouselOptions(
+                enableInfiniteScroll: false,
                 height: SizeConfig.screenHeight * 0.75,
                 viewportFraction: 1,
               ),
