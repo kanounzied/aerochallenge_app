@@ -56,6 +56,7 @@ class _TimerAeroState extends State<TimerAero> {
           color: active ? AERO_YELLOW : AERO_RED,
           width: SizeConfig.screenWidth * 0.38,
           height: SizeConfig.defaultSize * 5,
+          //https://medium.com/analytics-vidhya/build-a-simple-stopwatch-in-flutter-a1f21cfcd7a8
           onPressed: active
               ? () {
                   timerSubscription.cancel();
