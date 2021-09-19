@@ -1,15 +1,12 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
-import 'package:aerochallenge_app/screens/obstacles_list/obstacles_list.dart';
+import 'package:aerochallenge_app/screens/game/game.dart';
 import 'package:aerochallenge_app/widgets/aero_button.dart';
-import 'package:aerochallenge_app/widgets/aeroday_edition_text.dart';
+import 'package:aerochallenge_app/widgets/texts/aeroday_edition_text.dart';
 import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/custom_page_route.dart';
-import 'dart:math' as math;
-import 'package:aerochallenge_app/wing_icon_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({this.equipe});
@@ -52,7 +49,7 @@ class StartPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         CustomPageRoute(
-                            child: ObstaclesList(
+                            child: Game(
                             equipe: equipe,
                           ),
                         ),

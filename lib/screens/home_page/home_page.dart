@@ -1,7 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
-import 'package:aerochallenge_app/widgets/aeroday_edition_text.dart';
+import 'package:aerochallenge_app/widgets/texts/aeroday_edition_text.dart';
 import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/participantCard.dart';
 import 'dart:math' as math;
