@@ -16,9 +16,9 @@ class TimerAero extends StatefulWidget {
 class _TimerAeroState extends State<TimerAero> {
   Stream<int> timerStream;
   StreamSubscription<int> timerSubscription;
-  String hoursStr = "00";
   String minutesStr = "00";
   String secondsStr = "00";
+  String millisecondsStr = "00";
   bool active = false;
 
   @override
@@ -32,7 +32,7 @@ class _TimerAeroState extends State<TimerAero> {
             text: TextSpan(children: [
               WidgetSpan(
                 child: Icon(
-                  Icons.play_arrow,
+                  active ? Icons.stop : Icons.play_arrow ,
                   size: SizeConfig.defaultSize * 2.4,
                 ),
               ),
@@ -62,9 +62,9 @@ class _TimerAeroState extends State<TimerAero> {
                   timerSubscription.cancel();
                   timerStream = null;
                   setState(() {
-                    hoursStr = '00';
                     minutesStr = '00';
                     secondsStr = '00';
+                    millisecondsStr = '00';
                     active = !active;
                   });
                 }
@@ -75,22 +75,22 @@ class _TimerAeroState extends State<TimerAero> {
                   timerStream = stopWatchStream();
                   timerSubscription = timerStream.listen((int newTick) {
                     setState(() {
-                      hoursStr = ((newTick / (60 * 60)) % 60)
+                      minutesStr = ((newTick / (100 * 60)) % 60)
                           .floor()
                           .toString()
                           .padLeft(2, '0');
-                      minutesStr = ((newTick / 60) % 60)
+                      secondsStr = ((newTick / 100) % 60)
                           .floor()
                           .toString()
                           .padLeft(2, '0');
-                      secondsStr =
-                          (newTick % 60).floor().toString().padLeft(2, '0');
+                      millisecondsStr =
+                          (newTick % 100).floor().toString().padLeft(2, '0');
                     });
                   });
                 },
         ),
         Text(
-          "$hoursStr:$minutesStr:$secondsStr",
+          "$minutesStr:$secondsStr:$millisecondsStr",
           style: TextStyle(
               fontSize: SizeConfig.defaultSize * 1.8, color: AERO_BLUE),
         ),
@@ -101,7 +101,7 @@ class _TimerAeroState extends State<TimerAero> {
   Stream<int> stopWatchStream() {
     StreamController<int> streamController;
     Timer timer;
-    Duration timerInterval = Duration(seconds: 1);
+    Duration timerInterval = Duration(milliseconds: 10);
     int counter = 0;
 
     void stopTimer() {

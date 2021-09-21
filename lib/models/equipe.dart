@@ -4,7 +4,7 @@ class Equipe {
   List<dynamic> members;
   String chef;
   bool hasPlayed = false;
-  Map<String, dynamic> historique;
+  List<dynamic> historique;
 
   Equipe({this.name, this.members, this.chef});
 

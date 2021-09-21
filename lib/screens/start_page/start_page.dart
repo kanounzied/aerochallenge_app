@@ -9,12 +9,14 @@ import 'package:aerochallenge_app/widgets/custom_page_route.dart';
 import 'package:flutter/material.dart';
 
 class StartPage extends StatelessWidget {
+
   const StartPage({this.equipe});
 
   final Equipe equipe;
 
   @override
   Widget build(BuildContext context) {
+    
     List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_BLUE];
 
     SizeConfig sizeConfig = new SizeConfig();

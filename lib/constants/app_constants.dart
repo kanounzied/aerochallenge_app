@@ -47,7 +47,7 @@ var obstacles = [
   }
 ];
 
-List<Widget> obsWidgets_test = [
+List<Widget> obsWidgetsTest = [
   Column(
     children: [
       Text(
@@ -74,11 +74,11 @@ List<Widget> obsWidgets_test = [
   )
 ];
 
-List<Widget> obsWidgets = [
-  Helipad(),
-  WTC(),
-  Auschwitz(),
-  Torii(),
-  Missiles(),
-  Podium()
-];
+// List<Widget> obsWidgets = [
+//   Helipad(),
+//   WTC(),
+//   Auschwitz(),
+//   Torii(),
+//   Missiles(),
+//   Podium()
+// ];
