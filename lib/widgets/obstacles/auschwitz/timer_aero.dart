@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import '../../aero_button.dart';
 
 class TimerAero extends StatefulWidget {
-  const TimerAero({Key key}) : super(key: key);
-
+  const TimerAero({Key key, this.level}) : super(key: key);
+final String level;
   @override
   _TimerAeroState createState() => _TimerAeroState();
 }
@@ -19,11 +19,26 @@ class _TimerAeroState extends State<TimerAero> {
   String secondsStr = "00";
   String millisecondsStr = "00";
   IconData icon = Icons.play_arrow;
+
+  // To know whether to reset the stopwatch or replay it
   bool shouldPlay = true;
+
+  // To know if the stopwatch is currently playing or not
   bool active = false;
+
+  // Hedhi aad wadh7a
   Timer timer;
   Duration timerInterval = Duration(milliseconds: 10);
-  int counter = 0;
+
+  startTimer() {
+    setState(() {
+      stopwatch.start();
+      shouldPlay = false;
+      active = true;
+      timer = Timer.periodic(timerInterval, updateTimer);
+      icon = Icons.stop;
+    });
+  }
 
   stopTimer() {
     setState(() {
@@ -32,6 +47,18 @@ class _TimerAeroState extends State<TimerAero> {
       icon = Icons.replay;
       stopwatch.stop();
       setTime();
+    });
+  }
+
+  resetWatch() {
+    setState(() {
+      stopwatch.reset();
+      minutesStr = "00";
+      secondsStr = "00";
+      millisecondsStr = "00";
+      active = false;
+      shouldPlay = true;
+      icon = Icons.play_arrow;
     });
   }
 
@@ -48,26 +75,11 @@ class _TimerAeroState extends State<TimerAero> {
     if (stopwatch.isRunning) setTime();
   }
 
-  resetWatch() {
-    setState(() {
-      stopwatch.reset();
-      minutesStr = "00";
-      secondsStr = "00";
-      millisecondsStr = "00";
-      active = false;
-      shouldPlay = true;
-      icon = Icons.play_arrow;
-    });
-  }
-
-  startTimer() {
-    setState(() {
-      stopwatch.start();
-      shouldPlay = false;
-      active = true;
-      timer = Timer.periodic(timerInterval, updateTimer);
-      icon = Icons.stop;
-    });
+  playOrResetTimer() {
+    if (shouldPlay)
+      startTimer();
+    else
+      resetWatch();
   }
 
   @override
@@ -76,48 +88,43 @@ class _TimerAeroState extends State<TimerAero> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         AeroButton(
-            content: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(children: [
-                WidgetSpan(
-                  child: Icon(
-                    icon,
-                    size: SizeConfig.defaultSize * 2.4,
-                  ),
+          content: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(children: [
+              WidgetSpan(
+                child: Icon(
+                  icon,
+                  size: SizeConfig.defaultSize * 2.4,
                 ),
-                WidgetSpan(
-                    child: SizedBox(
-                  width: SizeConfig.defaultSize / 2,
-                )),
-                WidgetSpan(
-                  child: Center(
-                    child: Text(
-                      'Niveau 1',
-                      style: TextStyle(
-                        color: LIGHT_COLOR,
-                        fontSize: SizeConfig.defaultSize * 2,
-                      ),
+              ),
+              WidgetSpan(
+                  child: SizedBox(
+                width: SizeConfig.defaultSize / 2,
+              )),
+              WidgetSpan(
+                child: Center(
+                  child: Text(
+                    widget.level,
+                    style: TextStyle(
+                      color: LIGHT_COLOR,
+                      fontSize: SizeConfig.defaultSize * 2,
                     ),
                   ),
-                )
-              ]),
-            ),
-            color: active ? AERO_YELLOW : AERO_RED,
-            width: SizeConfig.screenWidth * 0.38,
-            height: SizeConfig.defaultSize * 5,
-            //https://medium.com/analytics-vidhya/build-a-simple-stopwatch-in-flutter-a1f21cfcd7a8
-            onPressed: active
-                ? stopTimer
-                : () {
-                    if (shouldPlay)
-                      startTimer();
-                    else
-                      resetWatch();
-                  }),
+                ),
+              )
+            ]),
+          ),
+          color: active ? AERO_YELLOW : AERO_RED,
+          width: SizeConfig.screenWidth * 0.38,
+          height: SizeConfig.defaultSize * 5,
+          onPressed: active ? stopTimer : playOrResetTimer,
+        ),
         Text(
           "$minutesStr:$secondsStr:$millisecondsStr",
           style: TextStyle(
-              fontSize: SizeConfig.defaultSize * 1.8, color: AERO_BLUE),
+            fontSize: SizeConfig.defaultSize * 1.8,
+            color: AERO_BLUE,
+          ),
         ),
       ],
     );
