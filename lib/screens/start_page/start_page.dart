@@ -9,15 +9,17 @@ import 'package:aerochallenge_app/widgets/custom_page_route.dart';
 import 'package:flutter/material.dart';
 
 class StartPage extends StatelessWidget {
-
   const StartPage({this.equipe});
 
   final Equipe equipe;
 
   @override
   Widget build(BuildContext context) {
-    
-    List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_BLUE];
+    List<Color> colors = [
+      AERO_RED,
+      AERO_YELLOW,
+      AERO_BLUE,
+    ];
 
     SizeConfig sizeConfig = new SizeConfig();
     sizeConfig.init(context);
@@ -46,21 +48,22 @@ class StartPage extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 2),
                 child: AeroButton(
-                    content: Text('Start Game!'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        CustomPageRoute(
-                            child: Game(
-                            equipe: equipe,
-                          ),
+                  content: Text('Start Game!'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CustomPageRoute(
+                        child: Game(
+                          equipe: equipe,
                         ),
-                      );
-                    },
-                    width: SizeConfig.screenWidth * 0.8,
-                    height: SizeConfig.defaultSize * 6,
-                    color: AERO_RED,
-                    textColor: LIGHT_COLOR),
+                      ),
+                    );
+                  },
+                  width: SizeConfig.screenWidth * 0.8,
+                  height: SizeConfig.defaultSize * 6,
+                  color: AERO_RED,
+                  textColor: LIGHT_COLOR,
+                ),
               ),
             ),
           ],

@@ -33,14 +33,14 @@ class _MissilesState extends State<Missiles> {
     });
   }
 
-  void _changeBtn3Color(){
+  void _changeBtn3Color() {
     setState(() {
-          if (_obs3Btn == AERO_RED) {
+      if (_obs3Btn == AERO_RED) {
         _obs3Btn = AERO_RED.withOpacity(0.5);
         _obs2Btn = AERO_RED;
       } else
         _obs3Btn = AERO_RED;
-        });
+    });
   }
 
   @override
@@ -81,7 +81,11 @@ class _MissilesState extends State<Missiles> {
                 flex: 2,
                 child: Sonctions(
                   soncs: _sonctions,
-                  onPressed: [(){},(){},(){},],
+                  onPressed: [
+                    () {},
+                    () {},
+                    () {},
+                  ],
                 ),
               )
             ],
@@ -100,7 +104,9 @@ class _MissilesState extends State<Missiles> {
               color: _obs2Btn,
               width: SizeConfig.screenWidth * 0.38,
               height: SizeConfig.defaultSize * 5,
-              onPressed: (){ _changeBtn2Color();},
+              onPressed: () {
+                _changeBtn2Color();
+              },
             ),
             SizedBox(
               width: SizeConfig.defaultSize * 2,
@@ -115,7 +121,9 @@ class _MissilesState extends State<Missiles> {
               color: _obs3Btn,
               width: SizeConfig.screenWidth * 0.38,
               height: SizeConfig.defaultSize * 5,
-              onPressed: (){ _changeBtn3Color();},
+              onPressed: () {
+                _changeBtn3Color();
+              },
             ),
           ],
         ),

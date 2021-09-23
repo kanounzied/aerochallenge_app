@@ -38,7 +38,8 @@ class _PodiumState extends State<Podium> {
               ),
             ),
             Align(
-              alignment: Alignment(SizeConfig.defaultSize * -0.055,SizeConfig.defaultSize * -0.025),
+              alignment: Alignment(SizeConfig.defaultSize * -0.055,
+                  SizeConfig.defaultSize * -0.025),
               child: AeroButton(
                 content: Text('2nd'),
                 width: SizeConfig.defaultSize * 6,
@@ -48,7 +49,8 @@ class _PodiumState extends State<Podium> {
               ),
             ),
             Align(
-              alignment: Alignment(SizeConfig.defaultSize * 0.005,SizeConfig.defaultSize * 0.04),
+              alignment: Alignment(SizeConfig.defaultSize * 0.005,
+                  SizeConfig.defaultSize * 0.04),
               child: AeroButton(
                 content: Text('1st'),
                 width: SizeConfig.defaultSize * 6,
@@ -58,7 +60,8 @@ class _PodiumState extends State<Podium> {
               ),
             ),
             Align(
-              alignment: Alignment(SizeConfig.defaultSize * 0.038, SizeConfig.defaultSize * -0.045),
+              alignment: Alignment(SizeConfig.defaultSize * 0.038,
+                  SizeConfig.defaultSize * -0.045),
               child: AeroButton(
                 content: Text('3rd'),
                 width: SizeConfig.defaultSize * 6,

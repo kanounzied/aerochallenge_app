@@ -13,7 +13,9 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => TimerBloc()),
-        ChangeNotifierProvider(create: (context) => CounterBloc(),)
+        ChangeNotifierProvider(
+          create: (context) => CounterBloc(),
+        )
       ],
       child: MyApp(),
     ),
@@ -25,9 +27,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Aerochallenge',

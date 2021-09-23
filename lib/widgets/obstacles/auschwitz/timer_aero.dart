@@ -8,7 +8,8 @@ import '../../aero_button.dart';
 
 class TimerAero extends StatefulWidget {
   const TimerAero({Key key, this.level}) : super(key: key);
-final String level;
+  final String level;
+
   @override
   _TimerAeroState createState() => _TimerAeroState();
 }

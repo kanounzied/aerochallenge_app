@@ -16,6 +16,7 @@ class WTC extends StatefulWidget {
   WTC({Key key, this.name}) : super(key: key);
 
   String name;
+
   @override
   _WTCState createState() => _WTCState();
 }
@@ -29,7 +30,6 @@ class _WTCState extends State<WTC> {
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
     final CounterBloc counterBloc = Provider.of<CounterBloc>(context);
-
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
