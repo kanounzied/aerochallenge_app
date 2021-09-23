@@ -54,11 +54,15 @@ class _AuschwitzState extends State<Auschwitz> {
                       ),
                       Column(
                         children: [
-                          TimerAero(),
+                          TimerAero(
+                            level: "Niveau 1",
+                          ),
                           SizedBox(
                             height: SizeConfig.defaultSize * 2,
                           ),
-                          TimerAero(),
+                          TimerAero(
+                            level: "Niveau 2",
+                          ),
                         ],
                       )
                     ],
