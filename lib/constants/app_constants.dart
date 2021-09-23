@@ -1,15 +1,3 @@
-import 'package:aerochallenge_app/config/responsive_size.dart';
-import 'package:aerochallenge_app/config/theme.dart';
-import 'package:aerochallenge_app/widgets/aero_button.dart';
-import 'package:aerochallenge_app/widgets/obstacles/auschwitz/auschwitz.dart';
-import 'package:aerochallenge_app/widgets/obstacles/helipad/helipad.dart';
-import 'package:aerochallenge_app/widgets/obstacles/missiles/missiles.dart';
-import 'package:aerochallenge_app/widgets/obstacles/podium/podium.dart';
-import 'package:aerochallenge_app/widgets/obstacles/torii/torii.dart';
-import 'package:aerochallenge_app/widgets/obstacles/wtc/wtc.dart';
-import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
-import 'package:flutter/material.dart';
-
 var obstacles = [
   {
     "name": "helipad",

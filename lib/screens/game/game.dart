@@ -25,15 +25,6 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
 
-  // List<Widget> _obsWidgets = [
-  //   Helipad(),
-  //   WTC(),
-  //   Auschwitz(),
-  //   Torii(),
-  //   Missiles(),
-  //   Podium()
-  // ];
-
   @override
   Widget build(BuildContext context) {
 

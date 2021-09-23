@@ -131,7 +131,15 @@ class _WTCState extends State<WTC> {
               height: SizeConfig.defaultSize * 6,
               color: AERO_RED,
               textColor: LIGHT_COLOR,
-              onPressed: () {},
+              onPressed: () {
+                ActionHist act = new ActionHist(
+                  type: "annuler",
+                  time: timerBloc.time,
+                  value: _success[0],
+                  obstacle: _name,
+                );
+                historique[widget.name].add(act);
+              },
             ),
           ],
         ),

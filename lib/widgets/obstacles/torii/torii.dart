@@ -1,7 +1,11 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
+import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
+import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../aero_button.dart';
 import '../sonctions.dart';
@@ -22,6 +26,8 @@ class _ToriiState extends State<Torii> {
 
   @override
   Widget build(BuildContext context) {
+    final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +52,26 @@ class _ToriiState extends State<Torii> {
                   flex: 2,
                   child: Sonctions(
                     soncs: _sonctions,
-                    onPressed: [],
+                    onPressed: [
+                      () {
+                        ActionHist act = new ActionHist(
+                          type: "toucher d'un element",
+                          time: timerBloc.time,
+                          value: -1,
+                          obstacle: _name,
+                        );
+                        historique[widget.name].add(act);
+                      },
+                      () {
+                        ActionHist act = new ActionHist(
+                          type: "toucher d'obstacle",
+                          time: timerBloc.time,
+                          value: int.parse(_sonctions[0]),
+                          obstacle: _name,
+                        );
+                        historique[widget.name].add(act);
+                      }
+                    ],
                   ))
             ],
           ),
@@ -63,7 +88,15 @@ class _ToriiState extends State<Torii> {
               height: SizeConfig.defaultSize * 6,
               color: AERO_BLUE,
               textColor: LIGHT_COLOR,
-              onPressed: () {},
+              onPressed: () {
+                ActionHist act = new ActionHist(
+                  type: "validation",
+                  time: timerBloc.time,
+                  value: _success,
+                  obstacle: _name,
+                );
+                historique[widget.name].add(act);
+              },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
             AeroButton(
@@ -75,7 +108,15 @@ class _ToriiState extends State<Torii> {
               height: SizeConfig.defaultSize * 6,
               color: AERO_RED,
               textColor: LIGHT_COLOR,
-              onPressed: () {},
+              onPressed: () {
+                ActionHist act = new ActionHist(
+                  type: "annulation",
+                  time: timerBloc.time,
+                  value: 0,
+                  obstacle: _name,
+                );
+                historique[widget.name].add(act);
+              },
             ),
           ],
         ),

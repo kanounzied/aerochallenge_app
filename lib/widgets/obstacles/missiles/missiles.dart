@@ -81,7 +81,7 @@ class _MissilesState extends State<Missiles> {
                 flex: 2,
                 child: Sonctions(
                   soncs: _sonctions,
-                  onPressed: [],
+                  onPressed: [(){},(){},(){},],
                 ),
               )
             ],
