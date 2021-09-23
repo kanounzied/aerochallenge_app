@@ -7,7 +7,9 @@ import '../../aero_button.dart';
 import '../sonctions.dart';
 
 class Missiles extends StatefulWidget {
-  const Missiles({Key key}) : super(key: key);
+  Missiles({Key key, this.name}) : super(key: key);
+
+  String name;
 
   @override
   _MissilesState createState() => _MissilesState();

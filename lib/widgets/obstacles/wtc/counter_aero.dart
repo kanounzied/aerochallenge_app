@@ -1,34 +1,40 @@
+import 'dart:developer';
+
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/widgets/aero_button.dart';
+import 'package:aerochallenge_app/widgets/obstacles/wtc/counter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class CounterAero extends StatefulWidget {
+class CounterAero extends StatelessWidget {
   const CounterAero({Key key}) : super(key: key);
 
-  @override
-  _CounterAeroState createState() => _CounterAeroState();
-}
+//   @override
+//   _CounterAeroState createState() => _CounterAeroState();
+// }
 
-class _CounterAeroState extends State<CounterAero> {
-  int _count = 0;
+// class _CounterAeroState extends State<CounterAero>{
+  // int _count = 0;
 
-  void _increment() {
-    setState(() {
-      if (_count < 3)
-      _count++;
-    });
-  }
+  // void _increment() {
+  //   setState(() {
+  //     if (_count < 3)
+  //     _count++;
+  //   });
+  // }
 
-  void _decrement() {
-    setState(() {
-      if(_count >0)
-      _count--;
-    });
-  }
+  // void _decrement() {
+  //   setState(() {
+  //     if(_count >0)
+  //     _count--;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+
+    final CounterBloc counterBloc = Provider.of<CounterBloc>(context);
     return Container(
       margin: EdgeInsets.fromLTRB(
           0, SizeConfig.defaultSize * 4, 0, SizeConfig.defaultSize * 1.5),
@@ -41,14 +47,14 @@ class _CounterAeroState extends State<CounterAero> {
               width: SizeConfig.defaultSize * 5,
               color: AERO_BLUE,
               onPressed: () {
-                _decrement();
+                counterBloc.decrement();
               }),
           Container(
               width: SizeConfig.defaultSize * 6,
               height: SizeConfig.defaultSize * 5,
               child: Center(
                 child: Text(
-                  _count.toString(),
+                  counterBloc.count.toString(),
                   style: TextStyle(
                       fontSize: SizeConfig.defaultSize * 1.7,
                       color: LIGHT_COLOR),
@@ -60,7 +66,7 @@ class _CounterAeroState extends State<CounterAero> {
             width: SizeConfig.defaultSize * 5,
             color: AERO_BLUE,
             onPressed: () {
-              _increment();
+              counterBloc.increment();
             },
           )
         ],

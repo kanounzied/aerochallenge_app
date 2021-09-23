@@ -1,14 +1,19 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
+import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_aero.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
+import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../aero_button.dart';
 import '../sonctions.dart';
 
 class Auschwitz extends StatefulWidget {
-  const Auschwitz({Key key}) : super(key: key);
+  Auschwitz({Key key, this.name}) : super(key: key);
+  String name;
 
   @override
   _AuschwitzState createState() => _AuschwitzState();
@@ -25,6 +30,8 @@ class _AuschwitzState extends State<Auschwitz> {
 
   @override
   Widget build(BuildContext context) {
+    final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,7 +69,19 @@ class _AuschwitzState extends State<Auschwitz> {
                   flex: 2,
                   child: Sonctions(
                     soncs: _sonctions,
-                    onPressed: [],
+                    onPressed: [
+                      () {
+                        ActionHist act = new ActionHist(
+                          type: "toucher d'un element",
+                          time: timerBloc.time,
+                          value: -1,
+                          obstacle: _name,
+                        );
+                        historique[widget.name].add(act);
+                      },
+                      () {},
+                      () {}
+                    ],
                   ))
             ],
           ),

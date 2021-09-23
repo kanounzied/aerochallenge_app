@@ -1,5 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
+import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,9 @@ import '../../aero_button.dart';
 import '../sonctions.dart';
 
 class Helipad extends StatefulWidget {
-  const Helipad({Key key}) : super(key: key);
+  Helipad({Key key, this.name}) : super(key: key);
+
+  String name;
 
   @override
   _HelipadState createState() => _HelipadState();
@@ -18,11 +22,10 @@ class Helipad extends StatefulWidget {
 class _HelipadState extends State<Helipad> {
   var _name = "helipad";
   var _sonctions = ["-3"];
-  var _success = 5;
+  var _success = [-3, 5];
 
   @override
   Widget build(BuildContext context) {
-    
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
 
     return Column(
@@ -48,7 +51,26 @@ class _HelipadState extends State<Helipad> {
                   flex: 2,
                   child: Sonctions(
                     soncs: _sonctions,
-                    onPressed: [],
+                    onPressed: [
+                      () {
+                        ActionHist act = new ActionHist(
+                          type: "toucher d'un element",
+                          time: timerBloc.time,
+                          value: -1,
+                          obstacle: _name,
+                        );
+                        historique[widget.name].add(act);
+                      },
+                      () {
+                        ActionHist act = new ActionHist(
+                          type: "toucher d'obstacle",
+                          time: timerBloc.time,
+                          value: -3,
+                          obstacle: _name,
+                        );
+                        historique[widget.name].add(act);
+                      }
+                    ],
                   ))
             ],
           ),
@@ -65,19 +87,36 @@ class _HelipadState extends State<Helipad> {
               height: SizeConfig.defaultSize * 6,
               color: AERO_BLUE,
               textColor: LIGHT_COLOR,
-              onPressed: () {},
+              onPressed: () {
+                ActionHist act = new ActionHist(
+                  type: "validation",
+                  time: timerBloc.time,
+                  value: _success[1],
+                  obstacle: _name,
+                );
+                historique[widget.name].add(act);
+                // print(historique);
+              },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
             AeroButton(
               content: Text(
-                'ANNULER',
+                'FALSE ATTEMPT',
                 style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
               color: AERO_RED,
               textColor: LIGHT_COLOR,
-              onPressed: () {},
+              onPressed: () {
+                ActionHist act = new ActionHist(
+                  type: "failed",
+                  time: timerBloc.time,
+                  value: _success[0],
+                  obstacle: _name,
+                );
+                historique[widget.name].add(act);
+              },
             ),
           ],
         ),

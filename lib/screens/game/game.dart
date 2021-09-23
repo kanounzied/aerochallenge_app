@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
+import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/obstacles/auschwitz/auschwitz.dart';
 import 'package:aerochallenge_app/widgets/obstacles/helipad/helipad.dart';
@@ -24,21 +25,29 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
 
-  Map<String, Action> _historique;
-
-  
-
-  List<Widget> _obsWidgets = [
-    Helipad(),
-    WTC(),
-    Auschwitz(),
-    Torii(),
-    Missiles(),
-    Podium()
-  ];
+  // List<Widget> _obsWidgets = [
+  //   Helipad(),
+  //   WTC(),
+  //   Auschwitz(),
+  //   Torii(),
+  //   Missiles(),
+  //   Podium()
+  // ];
 
   @override
   Widget build(BuildContext context) {
+
+    List<Widget> _obsWidgets = [
+      Helipad(name: widget.equipe.name),
+      WTC(name: widget.equipe.name),
+      Auschwitz(name: widget.equipe.name),
+      Torii(name: widget.equipe.name),
+      Missiles(name: widget.equipe.name),
+      Podium(name: widget.equipe.name)
+    ];
+
+    historique[widget.equipe.name] = [];
+
     return Scaffold(
       appBar: AppbarAeroday.getAppbar(),
       backgroundColor: DARK_COLOR,

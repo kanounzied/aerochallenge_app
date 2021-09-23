@@ -12,50 +12,48 @@ class Sonctions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     List<Widget> tab = [
       AeroButton(
-                    content: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          0,
-                          0,
-                          SizeConfig.defaultSize * 0.2,
-                          SizeConfig.defaultSize * 0.4),
-                      child: Image.asset(
-                        'assets/obstacles/drone_hit.png',
-                        width: SizeConfig.defaultSize * 4,
-                      ),
-                    ),
-                    width: SizeConfig.defaultSize * 7,
-                    height: SizeConfig.defaultSize * 7,
-                    color: AERO_BLUE,
-                    textColor: DARK_COLOR,
-                    onPressed: () {},
-                  ),
-                  SizedBox(
-                    height: SizeConfig.defaultSize * 4,
-                  ),
+        content: Padding(
+          padding: EdgeInsets.fromLTRB(
+              0, 0, SizeConfig.defaultSize * 0.2, SizeConfig.defaultSize * 0.4),
+          child: Image.asset(
+            'assets/obstacles/drone_hit.png',
+            width: SizeConfig.defaultSize * 4,
+          ),
+        ),
+        width: SizeConfig.defaultSize * 7,
+        height: SizeConfig.defaultSize * 7,
+        color: AERO_BLUE,
+        textColor: DARK_COLOR,
+        onPressed: onPressed[0],
+      ),
+      SizedBox(
+        height: SizeConfig.defaultSize * 4,
+      ),
     ];
+    int i = 1;
     soncs.forEach((s) {
-      tab.add( AeroButton(
-                    content: Text(
-                      s,
-                      style: TextStyle(
-                          color: DARK_COLOR, fontWeight: FontWeight.bold),
-                    ),
-                    color: AERO_BLUE,
-                    width: SizeConfig.defaultSize * 7,
-                    height: SizeConfig.defaultSize * 7,
-                    onPressed: () {},
-                  ));
+      tab.add(
+        AeroButton(
+          content: Text(
+            s,
+            style: TextStyle(color: DARK_COLOR, fontWeight: FontWeight.bold),
+          ),
+          color: AERO_BLUE,
+          width: SizeConfig.defaultSize * 7,
+          height: SizeConfig.defaultSize * 7,
+          onPressed: onPressed[i++],
+        ),
+      );
       tab.add(SizedBox(
-                    height: SizeConfig.defaultSize * 4,
-                  ));
-     });
+        height: SizeConfig.defaultSize * 4,
+      ));
+    });
 
     return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: tab,
-              );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: tab,
+    );
   }
 }

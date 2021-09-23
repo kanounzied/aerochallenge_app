@@ -1,4 +1,5 @@
 import 'package:aerochallenge_app/screens/home_page/home_page.dart';
+import 'package:aerochallenge_app/widgets/obstacles/wtc/counter_bloc.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,8 +10,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => TimerBloc(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TimerBloc()),
+        ChangeNotifierProvider(create: (context) => CounterBloc(),)
+      ],
       child: MyApp(),
     ),
   );

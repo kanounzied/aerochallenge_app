@@ -47,33 +47,6 @@ var obstacles = [
   }
 ];
 
-List<Widget> obsWidgetsTest = [
-  Column(
-    children: [
-      Text(
-        '3asssssssssssssssssssbaaaaaaaa',
-        style: TextStyle(color: LIGHT_COLOR),
-      ),
-      Text(
-        '3asssssssssssssssssssbaaaaaaaa',
-        style: TextStyle(color: LIGHT_COLOR),
-      ),
-      Text(
-        '3asssssssssssssssssssbaaaaaaaa',
-        style: TextStyle(color: LIGHT_COLOR),
-      ),
-    ],
-  ),
-  Text(
-    '3asssssssssssssssssssbaaaaaaaa',
-    style: TextStyle(color: LIGHT_COLOR),
-  ),
-  Text(
-    '3asssssssssssssssssssbaaaaaaaa',
-    style: TextStyle(color: LIGHT_COLOR),
-  )
-];
-
 // List<Widget> obsWidgets = [
 //   Helipad(),
 //   WTC(),

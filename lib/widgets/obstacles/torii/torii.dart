@@ -7,7 +7,9 @@ import '../../aero_button.dart';
 import '../sonctions.dart';
 
 class Torii extends StatefulWidget {
-  const Torii({Key key}) : super(key: key);
+  Torii({Key key, this.name}) : super(key: key);
+
+  String name;
 
   @override
   _ToriiState createState() => _ToriiState();

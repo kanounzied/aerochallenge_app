@@ -8,7 +8,9 @@ import '../../aero_button.dart';
 import '../sonctions.dart';
 
 class Podium extends StatefulWidget {
-  const Podium({Key key}) : super(key: key);
+  Podium({Key key, this.name}) : super(key: key);
+
+  String name;
 
   @override
   _PodiumState createState() => _PodiumState();
