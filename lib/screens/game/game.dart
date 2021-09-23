@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
@@ -24,10 +26,63 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
+  Stopwatch stopwatch = new Stopwatch();
+  String minutesStr = "04";
+  String secondsStr = "00";
+  String millisecondsStr = "00";
+  IconData icon = Icons.play_arrow;
+
+  Timer timer;
+  Duration timerInterval = Duration(milliseconds: 10);
+
+  setTime() {
+    int time =
+        Duration(minutes: 4).inMilliseconds - stopwatch.elapsedMilliseconds;
+    if (time <= 0)
+      stopTimer();
+    else
+      setState(() {
+        minutesStr = (time / (1000 * 60)).floor().toString().padLeft(2, '0');
+        secondsStr = ((time / 1000) % 60).floor().toString().padLeft(2, '0');
+        millisecondsStr =
+            ((time / 10) % 100).floor().toString().padLeft(2, '0');
+      });
+  }
+
+  updateTimer(Timer t) {
+    if (stopwatch.isRunning) setTime();
+  }
+
+  startTimer() {
+    setState(() {
+      stopwatch.start();
+      timer = Timer.periodic(timerInterval, updateTimer);
+      icon = Icons.stop;
+    });
+  }
+
+  stopTimer() {
+    setState(() {
+      icon = Icons.replay;
+      stopwatch.stop();
+      // You can qlso set it to the time left, juste zid condition ya Zied
+      setState(() {
+        stopwatch.reset();
+        minutesStr = "00";
+        secondsStr = "00";
+        millisecondsStr = "00";
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     List<Widget> _obsWidgets = [
       Helipad(name: widget.equipe.name),
       WTC(name: widget.equipe.name),
@@ -56,7 +111,9 @@ class _GameState extends State<Game> {
             height: SizeConfig.defaultSize * 2.5,
           ),
           Center(
-            child: TimerAero(),
+            child: TimerAero(
+              time: "$minutesStr:$secondsStr:$millisecondsStr",
+            ),
           ),
           SizedBox(
             height: SizeConfig.defaultSize * 2,
