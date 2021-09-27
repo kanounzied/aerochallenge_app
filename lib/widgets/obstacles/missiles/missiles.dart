@@ -1,15 +1,22 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
+import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/screens/game/history.dart';
+import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
+import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../aero_button.dart';
 import '../sonctions.dart';
 
 class Missiles extends StatefulWidget {
-  Missiles({Key key, this.name}) : super(key: key);
+  Missiles({Key key, this.cc, this.contestantId}) : super(key: key);
 
-  String name;
+  CarouselController cc;
+  String contestantId;
 
   @override
   _MissilesState createState() => _MissilesState();
@@ -18,7 +25,13 @@ class Missiles extends StatefulWidget {
 class _MissilesState extends State<Missiles> {
   String _name = "missiles";
   List<String> _sonctions = ["-5", "-10"];
-  Map _success = {"2": 15, "3": 30};
+  Map _success = {
+    "0": 0,
+    "2": 15,
+    "3": 30,
+  };
+  int _nMissiles = 0;
+  bool _done = false;
 
   Color _obs2Btn = AERO_RED;
   Color _obs3Btn = AERO_RED;
@@ -33,18 +46,29 @@ class _MissilesState extends State<Missiles> {
     });
   }
 
-  void _changeBtn3Color(){
+  void _changeBtn3Color() {
     setState(() {
-          if (_obs3Btn == AERO_RED) {
+      if (_obs3Btn == AERO_RED) {
         _obs3Btn = AERO_RED.withOpacity(0.5);
         _obs2Btn = AERO_RED;
       } else
         _obs3Btn = AERO_RED;
-        });
+    });
+  }
+
+  void _updateNMissiles(int i) {
+    setState(() {
+      if (_nMissiles == i)
+        _nMissiles = 0;
+      else
+        _nMissiles = i;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,7 +105,35 @@ class _MissilesState extends State<Missiles> {
                 flex: 2,
                 child: Sonctions(
                   soncs: _sonctions,
-                  onPressed: [(){},(){},(){},],
+                  onPressed: [
+                    () {
+                      ActionHist act = new ActionHist(
+                        type: "toucher d'un element",
+                        time: timerBloc.time,
+                        value: -1,
+                        obstacle: _name,
+                      );
+                      historique[widget.contestantId].add(act);
+                    },
+                    () {
+                      ActionHist act = new ActionHist(
+                        type: "toucher d'obstacle",
+                        time: timerBloc.time,
+                        value: int.parse(_sonctions[0]),
+                        obstacle: _name,
+                      );
+                      historique[widget.contestantId].add(act);
+                    },
+                    () {
+                      ActionHist act = new ActionHist(
+                        type: "depasser hauteur",
+                        time: timerBloc.time,
+                        value: int.parse(_sonctions[1]),
+                        obstacle: _name,
+                      );
+                      historique[widget.contestantId].add(act);
+                    },
+                  ],
                 ),
               )
             ],
@@ -100,7 +152,10 @@ class _MissilesState extends State<Missiles> {
               color: _obs2Btn,
               width: SizeConfig.screenWidth * 0.38,
               height: SizeConfig.defaultSize * 5,
-              onPressed: (){ _changeBtn2Color();},
+              onPressed: () {
+                _changeBtn2Color();
+                _updateNMissiles(2);
+              },
             ),
             SizedBox(
               width: SizeConfig.defaultSize * 2,
@@ -115,7 +170,10 @@ class _MissilesState extends State<Missiles> {
               color: _obs3Btn,
               width: SizeConfig.screenWidth * 0.38,
               height: SizeConfig.defaultSize * 5,
-              onPressed: (){ _changeBtn3Color();},
+              onPressed: () {
+                _changeBtn3Color();
+                _updateNMissiles(3);
+              },
             ),
           ],
         ),
@@ -134,7 +192,21 @@ class _MissilesState extends State<Missiles> {
               height: SizeConfig.defaultSize * 6,
               color: AERO_BLUE,
               textColor: LIGHT_COLOR,
-              onPressed: () {},
+              onPressed: () {
+                ActionHist act = new ActionHist(
+                  type: "validation",
+                  time: timerBloc.time,
+                  value: _success[_nMissiles.toString()],
+                  obstacle: _name,
+                );
+                if (!_done) {
+                  historique[widget.contestantId].add(act);
+                  widget.cc.nextPage();
+                  setState(() {
+                    _done = !_done;
+                  });
+                }
+              },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
             AeroButton(
@@ -146,7 +218,15 @@ class _MissilesState extends State<Missiles> {
               height: SizeConfig.defaultSize * 6,
               color: AERO_RED,
               textColor: LIGHT_COLOR,
-              onPressed: () {},
+              onPressed: () {
+                ActionHist act = new ActionHist(
+                  type: "annuler",
+                  time: timerBloc.time,
+                  value: 0,
+                  obstacle: _name,
+                );
+                historique[widget.contestantId].add(act);
+              },
             ),
           ],
         ),

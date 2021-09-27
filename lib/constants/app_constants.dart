@@ -1,3 +1,12 @@
+import 'package:aerochallenge_app/widgets/obstacles/auschwitz/auschwitz.dart';
+import 'package:aerochallenge_app/widgets/obstacles/helipad/helipad.dart';
+import 'package:aerochallenge_app/widgets/obstacles/missiles/missiles.dart';
+import 'package:aerochallenge_app/widgets/obstacles/podium/podium.dart';
+import 'package:aerochallenge_app/widgets/obstacles/torii/torii.dart';
+import 'package:aerochallenge_app/widgets/obstacles/wtc/wtc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
 var obstacles = [
   {
     "name": "helipad",
@@ -36,10 +45,12 @@ var obstacles = [
 ];
 
 // List<Widget> obsWidgets = [
-//   Helipad(),
-//   WTC(),
-//   Auschwitz(),
-//   Torii(),
-//   Missiles(),
-//   Podium()
-// ];
+//       Helipad(name: obstacles[0]['name']),
+//       WTC(name: obstacles[1]['name']),
+//       Auschwitz(name: obstacles[2]['name']),
+//       Torii(name: obstacles[3]['name']),
+//       Missiles(name: obstacles[4]['name']),
+//       Podium(name: obstacles[5]['name'])
+//     ];
+
+final dbInstance = FirebaseFirestore.instance.collection('equipes');//.snapshots();

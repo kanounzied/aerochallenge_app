@@ -1,5 +1,4 @@
 class ActionHist {
-
   String type; // sonction ou succes
   String time;
   int value;
@@ -8,14 +7,20 @@ class ActionHist {
 
   ActionHist({this.time, this.desc, this.obstacle, this.type, this.value});
 
-  String toString(){
-    return "type: "+this.type + "; time: "+ this.time + "; value: "+this.value.toString() + "\n";
+  String toString() {
+    return "type: " +
+        this.type +
+        "; time: " +
+        this.time +
+        "; value: " +
+        this.value.toString() +
+        "\n";
   }
 
-  Map<String,dynamic> toMap(ActionHist action){
+  Map<String, dynamic> toMap() {
     return {
-      "type": type,
       "time": time,
+      "type": type,
       "value": value,
       "obstacle": obstacle,
       "desc": desc,

@@ -6,6 +6,7 @@ import 'package:aerochallenge_app/widgets/obstacles/wtc/counter_aero.dart';
 import 'package:aerochallenge_app/widgets/obstacles/sonctions.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,9 +14,10 @@ import '../../aero_button.dart';
 import 'counter_bloc.dart';
 
 class WTC extends StatefulWidget {
-  WTC({Key key, this.name}) : super(key: key);
+  WTC({Key key, this.contestantId, this.cc}) : super(key: key);
 
-  String name;
+  String contestantId;
+  CarouselController cc;
   @override
   _WTCState createState() => _WTCState();
 }
@@ -24,6 +26,7 @@ class _WTCState extends State<WTC> {
   var _name = "WTC";
   var _sonctions = ["-5", "-10"];
   var _success = [-5, 10, 25, 40];
+  bool _done = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +76,7 @@ class _WTCState extends State<WTC> {
                         value: -1,
                         obstacle: _name,
                       );
-                      historique[widget.name].add(act);
+                      historique[widget.contestantId].add(act);
                     },
                     () {
                       ActionHist act = new ActionHist(
@@ -82,7 +85,7 @@ class _WTCState extends State<WTC> {
                         value: int.parse(_sonctions[0]),
                         obstacle: _name,
                       );
-                      historique[widget.name].add(act);
+                      historique[widget.contestantId].add(act);
                     },
                     () {
                       ActionHist act = new ActionHist(
@@ -91,7 +94,7 @@ class _WTCState extends State<WTC> {
                         value: int.parse(_sonctions[1]),
                         obstacle: _name,
                       );
-                      historique[widget.name].add(act);
+                      historique[widget.contestantId].add(act);
                     }
                   ],
                 ),
@@ -118,7 +121,13 @@ class _WTCState extends State<WTC> {
                   value: _success[counterBloc.count],
                   obstacle: _name,
                 );
-                historique[widget.name].add(act);
+                if (!_done) {
+                  historique[widget.contestantId].add(act);
+                  widget.cc.nextPage();
+                  setState(() {
+                    _done = !_done;
+                  });
+                }
               },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
@@ -138,7 +147,7 @@ class _WTCState extends State<WTC> {
                   value: _success[0],
                   obstacle: _name,
                 );
-                historique[widget.name].add(act);
+                historique[widget.contestantId].add(act);
               },
             ),
           ],

@@ -28,16 +28,18 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
 
+    CarouselController carouselController = new CarouselController();
+
     List<Widget> _obsWidgets = [
-      Helipad(name: widget.equipe.name),
-      WTC(name: widget.equipe.name),
-      Auschwitz(name: widget.equipe.name),
-      Torii(name: widget.equipe.name),
-      Missiles(name: widget.equipe.name),
-      Podium(name: widget.equipe.name)
+      Helipad(name: widget.equipe.name,cc: carouselController, contestantId: widget.equipe.id),
+      WTC(contestantId: widget.equipe.id,cc: carouselController),
+      Auschwitz(contestantId: widget.equipe.id,cc: carouselController),
+      Torii(contestantId: widget.equipe.id,cc: carouselController),
+      Missiles(contestantId: widget.equipe.id,cc: carouselController),
+      Podium(cc: carouselController, contestantId: widget.equipe.id)
     ];
 
-    historique[widget.equipe.name] = [];
+    historique[widget.equipe.id] = [];
 
     return Scaffold(
       appBar: AppbarAeroday.getAppbar(),
@@ -67,13 +69,15 @@ class _GameState extends State<Game> {
               height: SizeConfig.screenHeight * 0.75,
               viewportFraction: 1,
             ),
-            items: _obsWidgets.map((widget) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return widget;
-                },
-              );
-            }).toList(),
+            items: _obsWidgets,
+            carouselController: carouselController,
+            //.map((widget) {
+            //   return Builder(
+            //     builder: (BuildContext context) {
+            //       return widget;
+            //     },
+            //   );
+            // }).toList(),
           )
         ],
       ),

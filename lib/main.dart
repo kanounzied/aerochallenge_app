@@ -1,4 +1,6 @@
 import 'package:aerochallenge_app/screens/home_page/home_page.dart';
+import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_lvl1/timer_bloc_1.dart';
+import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_lvl2/timer_bloc_2.dart';
 import 'package:aerochallenge_app/widgets/obstacles/wtc/counter_bloc.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,9 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => TimerBloc()),
-        ChangeNotifierProvider(create: (context) => CounterBloc(),)
+        ChangeNotifierProvider(create: (context) => CounterBloc()),
+        ChangeNotifierProvider(create: (context) => TimerBloc1(),),
+        ChangeNotifierProvider(create: (context) => TimerBloc2(),)
       ],
       child: MyApp(),
     ),

@@ -4,6 +4,7 @@ import 'package:aerochallenge_app/models/action.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,9 +12,10 @@ import '../../aero_button.dart';
 import '../sonctions.dart';
 
 class Torii extends StatefulWidget {
-  Torii({Key key, this.name}) : super(key: key);
+  Torii({Key key, this.contestantId, this.cc}) : super(key: key);
 
-  String name;
+  String contestantId;
+  CarouselController cc;
 
   @override
   _ToriiState createState() => _ToriiState();
@@ -23,6 +25,7 @@ class _ToriiState extends State<Torii> {
   String _name = "torii";
   List<String> _sonctions = ["-5"];
   int _success = 20;
+  bool _done = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class _ToriiState extends State<Torii> {
                           value: -1,
                           obstacle: _name,
                         );
-                        historique[widget.name].add(act);
+                        historique[widget.contestantId].add(act);
                       },
                       () {
                         ActionHist act = new ActionHist(
@@ -69,7 +72,7 @@ class _ToriiState extends State<Torii> {
                           value: int.parse(_sonctions[0]),
                           obstacle: _name,
                         );
-                        historique[widget.name].add(act);
+                        historique[widget.contestantId].add(act);
                       }
                     ],
                   ))
@@ -95,7 +98,13 @@ class _ToriiState extends State<Torii> {
                   value: _success,
                   obstacle: _name,
                 );
-                historique[widget.name].add(act);
+                if (!_done) {
+                  historique[widget.contestantId].add(act);
+                  widget.cc.nextPage();
+                  setState(() {
+                    _done = !_done;
+                  });
+                }
               },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
@@ -115,7 +124,7 @@ class _ToriiState extends State<Torii> {
                   value: 0,
                   obstacle: _name,
                 );
-                historique[widget.name].add(act);
+                historique[widget.contestantId].add(act);
               },
             ),
           ],
