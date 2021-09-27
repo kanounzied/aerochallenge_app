@@ -12,7 +12,9 @@ class AppbarAeroday {
       backgroundColor: DARK_COLOR,
       title: Image.asset(
         'assets/LogoWhite.png',
-        width: w<h ? SizeConfig.screenWidth * 0.4 : SizeConfig.screenHeight * 0.4,
+        width: w < h
+            ? SizeConfig.screenWidth * 0.4
+            : SizeConfig.screenHeight * 0.4,
       ),
       centerTitle: true,
       automaticallyImplyLeading: false,

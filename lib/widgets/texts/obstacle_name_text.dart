@@ -6,6 +6,7 @@ class ObstacleNameText extends StatelessWidget {
   ObstacleNameText({this.name});
 
   String name;
+
   @override
   Widget build(BuildContext context) {
     return Text(

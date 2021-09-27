@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TimerAero extends StatelessWidget {
-  const TimerAero({Key key}) : super(key: key);
+  const TimerAero({Key key, String this.time}) : super(key: key);
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class TimerAero extends StatelessWidget {
 
     return Container(
       child: Text(
-        timerBloc.time,
+        time,
         style: TextStyle(
             color: LIGHT_COLOR,
             fontWeight: FontWeight.normal,

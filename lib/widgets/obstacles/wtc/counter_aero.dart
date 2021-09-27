@@ -33,7 +33,6 @@ class CounterAero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final CounterBloc counterBloc = Provider.of<CounterBloc>(context);
     return Container(
       margin: EdgeInsets.fromLTRB(
@@ -42,7 +41,10 @@ class CounterAero extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AeroButton(
-              content: Icon(Icons.remove, color: DARK_COLOR,),
+              content: Icon(
+                Icons.remove,
+                color: DARK_COLOR,
+              ),
               height: SizeConfig.defaultSize * 5,
               width: SizeConfig.defaultSize * 5,
               color: AERO_BLUE,
@@ -61,7 +63,10 @@ class CounterAero extends StatelessWidget {
                 ),
               )),
           AeroButton(
-            content: Icon(Icons.add, color: DARK_COLOR,),
+            content: Icon(
+              Icons.add,
+              color: DARK_COLOR,
+            ),
             height: SizeConfig.defaultSize * 5,
             width: SizeConfig.defaultSize * 5,
             color: AERO_BLUE,
