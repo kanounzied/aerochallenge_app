@@ -12,7 +12,7 @@ final String level = "Niveau 2";
 
   @override
   Widget build(BuildContext context) {
-        final TimerBloc2 timerBloc2 = Provider.of<TimerBloc2>(context);
+        final AuschwitzTimerBloc2 timerBloc2 = Provider.of<AuschwitzTimerBloc2>(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -12,7 +12,7 @@ class TimerAero1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TimerBloc1 timerBloc1 = Provider.of<TimerBloc1>(context);
+    final AuschwitzTimerBloc1 timerBloc1 = Provider.of<AuschwitzTimerBloc1>(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

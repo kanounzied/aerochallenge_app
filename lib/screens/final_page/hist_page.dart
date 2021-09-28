@@ -63,9 +63,9 @@ class HistPage extends StatelessWidget {
                           .update({"historique": maplist, "total": total})
                           .then((value) => print("historique updated"))
                           .catchError((e) =>
-                              print("//////////////////////" + e.toString()));
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) => HomePage()));
+                              print("db update error: " + e.toString()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
                     },
                     width: SizeConfig.screenWidth * 0.8,
                     height: SizeConfig.defaultSize * 6,

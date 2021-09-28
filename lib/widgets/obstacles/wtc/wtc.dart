@@ -127,6 +127,7 @@ class _WTCState extends State<WTC> {
                     _done = !_done;
                   });
                 }
+                counterBloc.reset();
               },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
@@ -147,6 +148,7 @@ class _WTCState extends State<WTC> {
                   obstacle: _name,
                 );
                 historique[widget.contestantId].add(act);
+                counterBloc.reset();
               },
             ),
           ],

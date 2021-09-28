@@ -15,4 +15,10 @@ class TimerBloc extends ChangeNotifier {
   int getSeconds(){
     return int.parse(_minutes) * 60 + int.parse(_seconds);
   }
+
+  void reset(){
+    _time = "00:00";
+    _minutes = "00";
+    _seconds = "00";
+  }
 }

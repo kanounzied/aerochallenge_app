@@ -14,4 +14,8 @@ class CounterBloc extends ChangeNotifier {
     if (_count > 0) _count--;
     notifyListeners();
   }
+
+  void reset(){
+    _count = 0;
+  }
 }

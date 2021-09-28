@@ -16,8 +16,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => TimerBloc()),
         ChangeNotifierProvider(create: (context) => CounterBloc()),
-        ChangeNotifierProvider(create: (context) => TimerBloc1(),),
-        ChangeNotifierProvider(create: (context) => TimerBloc2(),)
+        ChangeNotifierProvider(create: (context) => AuschwitzTimerBloc1(),),
+        ChangeNotifierProvider(create: (context) => AuschwitzTimerBloc2(),)
       ],
       child: MyApp(),
     ),

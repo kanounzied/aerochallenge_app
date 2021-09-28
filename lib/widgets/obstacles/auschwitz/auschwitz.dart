@@ -42,26 +42,30 @@ class _AuschwitzState extends State<Auschwitz> {
   }
 
   int getScore(Map<String, String> time1, Map<String, String> time2) {
-
     int niveau1 = int.parse(time1["seconds"]);
     int niveau2 = int.parse(time2["seconds"]);
 
-    if(niveau1 >= 5){
-      if(niveau1<7) return _success["niveau1"]["5"];
-      else return  _success["niveau1"]["7"];
-    }
-    else if(niveau2 >= 5){
-      if(niveau2<7) return _success["niveau2"]["5"];
-      else return  _success["niveau2"]["7"];
-    }
-    else return 0;
+    if (niveau1 >= 5) {
+      if (niveau1 < 7)
+        return _success["niveau1"]["5"];
+      else
+        return _success["niveau1"]["7"];
+    } else if (niveau2 >= 5) {
+      if (niveau2 < 7)
+        return _success["niveau2"]["5"];
+      else
+        return _success["niveau2"]["7"];
+    } else
+      return 0;
   }
 
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
-    final TimerBloc1 timerBloc1 = Provider.of<TimerBloc1>(context);
-    final TimerBloc2 timerBloc2 = Provider.of<TimerBloc2>(context);
+    final AuschwitzTimerBloc1 timerBloc1 =
+        Provider.of<AuschwitzTimerBloc1>(context);
+    final AuschwitzTimerBloc2 timerBloc2 =
+        Provider.of<AuschwitzTimerBloc2>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -150,6 +154,10 @@ class _AuschwitzState extends State<Auschwitz> {
                     _done = !_done;
                   });
                 }
+                timerBloc1.stopTimer();
+                timerBloc1.resetWatch();
+                timerBloc2.stopTimer();
+                timerBloc2.resetWatch();
               },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
@@ -170,6 +178,10 @@ class _AuschwitzState extends State<Auschwitz> {
                   obstacle: _name,
                 );
                 historique[widget.contestantId].add(act);
+                timerBloc1.stopTimer();
+                timerBloc1.resetWatch();
+                timerBloc2.stopTimer();
+                timerBloc2.resetWatch();
               },
             ),
           ],

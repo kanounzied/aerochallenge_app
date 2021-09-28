@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class TimerBloc1 extends ChangeNotifier {
+class AuschwitzTimerBloc1 extends ChangeNotifier {
   Map<String, String> _time = {
     "minutes": "00",
     "seconds": "00",
