@@ -8,8 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class HistForm extends StatefulWidget {
-  const HistForm({Key key, this.contestantId}) : super(key: key);
+  const HistForm({Key key, this.contestantId, this.homologationScore}) : super(key: key);
   final String contestantId;
+  final int homologationScore;
 
   @override
   _HistFormState createState() => _HistFormState();
@@ -201,18 +202,19 @@ class _HistFormState extends State<HistForm> {
                       setState(() {
                         total += e.value;
                       });
+                      print(e.obstacle);
                       if (e.obstacle == "podium") {
                         total -= (timerBloc.getSeconds() ~/ 50) * 2;
                         print("podium: " + e.value.toString());
                       }
                       return DataRow(cells: [
-                        DataCell(Center(child: Text(e.time))),
-                        DataCell(Center(child: Text(e.obstacle))),
+                        DataCell(Center(child: Text(e.time,textAlign: TextAlign.center,))),
+                        DataCell(Center(child: Text(e.obstacle,textAlign: TextAlign.center,))),
                         DataCell(Container(
-                          child: Center(child: Text(e.type)),
+                          child: Center(child: Text(e.type,textAlign: TextAlign.center,)),
                           width: SizeConfig.defaultSize * 10,
                         )),
-                        DataCell(Text(e.value.toString())),
+                        DataCell(Text(e.value.toString(),textAlign: TextAlign.center,)),
                       ]);
                     }).toList(),
                   ),
@@ -223,17 +225,35 @@ class _HistFormState extends State<HistForm> {
                         /*SizeConfig.defaultSize * */ 20,
                         0,
                         /*SizeConfig.defaultSize*/ 30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    child: Column(
                       children: [
-                        Text(
-                          "TOTAL: ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: SizeConfig.defaultSize * 1.6,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "HOMOLOGATION: ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: SizeConfig.defaultSize * 1.6,
+                              ),
+                            ),
+                            Text(widget.homologationScore.toString()),
+                          ],
                         ),
-                        Text(total.toString()),
+                        SizedBox(height: SizeConfig.defaultSize * 2,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "TOTAL: ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: SizeConfig.defaultSize * 1.6,
+                              ),
+                            ),
+                            Text(total.toString()),
+                          ],
+                        ),
                       ],
                     ),
                   ),

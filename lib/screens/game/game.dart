@@ -13,8 +13,10 @@ import 'package:aerochallenge_app/widgets/obstacles/torii/torii.dart';
 import 'package:aerochallenge_app/widgets/obstacles/wtc/wtc.dart';
 import 'package:aerochallenge_app/widgets/texts/aeroday_edition_text.dart';
 import 'package:aerochallenge_app/widgets/timer/timer.dart';
+import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Game extends StatefulWidget {
   const Game({Key key, @required this.equipe}) : super(key: key);
@@ -26,75 +28,36 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
-  Stopwatch stopwatch = new Stopwatch();
-  String minutesStr = "04";
-  String secondsStr = "00";
-  String millisecondsStr = "00";
-  IconData icon = Icons.play_arrow;
-
-  Timer timer;
-  Duration timerInterval = Duration(milliseconds: 10);
-
-  setTime() {
-    int time =
-        Duration(minutes: 4).inMilliseconds - stopwatch.elapsedMilliseconds;
-    if (time <= 0)
-      stopTimer();
-    else
-      setState(() {
-        minutesStr = (time / (1000 * 60)).floor().toString().padLeft(2, '0');
-        secondsStr = ((time / 1000) % 60).floor().toString().padLeft(2, '0');
-        millisecondsStr =
-            ((time / 10) % 100).floor().toString().padLeft(2, '0');
-      });
-  }
-
-  updateTimer(Timer t) {
-    if (stopwatch.isRunning) setTime();
-  }
-
-  startTimer() {
-    setState(() {
-      stopwatch.start();
-      timer = Timer.periodic(timerInterval, updateTimer);
-      icon = Icons.stop;
-    });
-  }
-
-  stopTimer() {
-    setState(() {
-      icon = Icons.replay;
-      stopwatch.stop();
-      // You can qlso set it to the time left, juste zid condition ya Zied
-      setState(() {
-        stopwatch.reset();
-        minutesStr = "00";
-        secondsStr = "00";
-        millisecondsStr = "00";
-      });
-    });
-  }
+  CarouselController carouselController = new CarouselController();
 
   @override
   void initState() {
-    startTimer();
+    historique[widget.equipe.id] = [];
     super.initState();
   }
 
-    CarouselController carouselController = new CarouselController();
-
   @override
   Widget build(BuildContext context) {
+    final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+    if (timerBloc.getTime() != "00:00") timerBloc.startTimer();
+
     List<Widget> _obsWidgets = [
-      Helipad(name: widget.equipe.name,cc: carouselController, contestantId: widget.equipe.id),
-      WTC(contestantId: widget.equipe.id,cc: carouselController),
-      Auschwitz(contestantId: widget.equipe.id,cc: carouselController),
-      Torii(contestantId: widget.equipe.id,cc: carouselController),
-      Missiles(contestantId: widget.equipe.id,cc: carouselController),
-      Podium(cc: carouselController, contestantId: widget.equipe.id)
+      Helipad(
+          name: widget.equipe.name,
+          cc: carouselController,
+          contestantId: widget.equipe.id),
+      WTC(contestantId: widget.equipe.id, cc: carouselController),
+      Auschwitz(contestantId: widget.equipe.id, cc: carouselController),
+      Torii(contestantId: widget.equipe.id, cc: carouselController),
+      Missiles(contestantId: widget.equipe.id, cc: carouselController),
+      Podium(
+        cc: carouselController,
+        contestantId: widget.equipe.id,
+        equipe: widget.equipe,
+      )
     ];
 
-    historique[widget.equipe.id] = [];
+    // if(historique[widget.equipe.id] == null ) historique[widget.equipe.id] = [];
 
     return Scaffold(
       appBar: AppbarAeroday.getAppbar(),
@@ -114,8 +77,8 @@ class _GameState extends State<Game> {
           ),
           Center(
             child: TimerAero(
-              time: "$minutesStr:$secondsStr:$millisecondsStr",
-            ),
+                //time: timerBloc.getTime(), //:$millisecondsStr",
+                ),
           ),
           SizedBox(
             height: SizeConfig.defaultSize * 2,
@@ -128,13 +91,6 @@ class _GameState extends State<Game> {
             ),
             items: _obsWidgets,
             carouselController: carouselController,
-            //.map((widget) {
-            //   return Builder(
-            //     builder: (BuildContext context) {
-            //       return widget;
-            //     },
-            //   );
-            // }).toList(),
           )
         ],
       ),

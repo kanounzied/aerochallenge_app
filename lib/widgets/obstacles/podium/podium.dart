@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/models/equipe.dart';
 import 'package:aerochallenge_app/screens/final_page/hist_page.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
@@ -13,10 +14,11 @@ import 'package:provider/provider.dart';
 import '../../aero_button.dart';
 
 class Podium extends StatefulWidget {
-  Podium({Key key, this.cc, this.contestantId}) : super(key: key);
+  Podium({Key key, this.cc, this.contestantId, this.equipe}) : super(key: key);
 
   CarouselController cc;
   String contestantId;
+  Equipe equipe;
 
   @override
   _PodiumState createState() => _PodiumState();
@@ -143,7 +145,7 @@ class _PodiumState extends State<Podium> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: _success[_placement],
                   obstacle: _name,
                 );
@@ -152,11 +154,14 @@ class _PodiumState extends State<Podium> {
                   setState(() {
                     _done = !_done;
                   });
+                  timerBloc.stopTimer();
                 }
+                print("===================="+widget.contestantId);
+                print(historique.toString());
                 Navigator.push(
                   context, 
                   MaterialPageRoute(
-                                builder: (context) => HistPage(contestantId: widget.contestantId,)));
+                                builder: (context) => HistPage(contestantId: widget.contestantId,equipe: widget.equipe,)));
               },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),

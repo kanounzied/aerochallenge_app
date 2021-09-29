@@ -109,7 +109,7 @@ class _MissilesState extends State<Missiles> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'un element",
-                        time: timerBloc.time,
+                        time: timerBloc.getTime(),
                         value: -1,
                         obstacle: _name,
                       );
@@ -118,7 +118,7 @@ class _MissilesState extends State<Missiles> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'obstacle",
-                        time: timerBloc.time,
+                        time: timerBloc.getTime(),
                         value: int.parse(_sonctions[0]),
                         obstacle: _name,
                       );
@@ -127,7 +127,7 @@ class _MissilesState extends State<Missiles> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "depasser hauteur",
-                        time: timerBloc.time,
+                        time: timerBloc.getTime(),
                         value: int.parse(_sonctions[1]),
                         obstacle: _name,
                       );
@@ -195,7 +195,7 @@ class _MissilesState extends State<Missiles> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: _success[_nMissiles.toString()],
                   obstacle: _name,
                 );
@@ -221,7 +221,7 @@ class _MissilesState extends State<Missiles> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "annuler",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: 0,
                   obstacle: _name,
                 );

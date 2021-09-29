@@ -6,7 +6,9 @@ import 'package:aerochallenge_app/widgets/aero_button.dart';
 import 'package:aerochallenge_app/widgets/texts/aeroday_edition_text.dart';
 import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/custom_page_route.dart';
+import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({this.equipe});
@@ -15,6 +17,8 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+
     List<Color> colors = [
       AERO_RED,
       AERO_YELLOW,
@@ -58,6 +62,10 @@ class StartPage extends StatelessWidget {
                         ),
                       ),
                     );
+                    timerBloc.stopwatch.reset();
+                    timerBloc.minutesStr = "04";
+                    timerBloc.secondsStr = "00";
+                    timerBloc.millisecondsStr = "00";
                   },
                   width: SizeConfig.screenWidth * 0.8,
                   height: SizeConfig.defaultSize * 6,

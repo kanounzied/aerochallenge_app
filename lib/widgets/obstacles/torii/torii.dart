@@ -59,7 +59,7 @@ class _ToriiState extends State<Torii> {
                       () {
                         ActionHist act = new ActionHist(
                           type: "toucher d'un element",
-                          time: timerBloc.time,
+                          time: timerBloc.getTime(),
                           value: -1,
                           obstacle: _name,
                         );
@@ -68,7 +68,7 @@ class _ToriiState extends State<Torii> {
                       () {
                         ActionHist act = new ActionHist(
                           type: "toucher d'obstacle",
-                          time: timerBloc.time,
+                          time: timerBloc.getTime(),
                           value: int.parse(_sonctions[0]),
                           obstacle: _name,
                         );
@@ -94,7 +94,7 @@ class _ToriiState extends State<Torii> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: _success,
                   obstacle: _name,
                 );
@@ -120,7 +120,7 @@ class _ToriiState extends State<Torii> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "annulation",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: 0,
                   obstacle: _name,
                 );

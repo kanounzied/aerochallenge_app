@@ -71,7 +71,7 @@ class _WTCState extends State<WTC> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'un element",
-                        time: timerBloc.time,
+                        time: timerBloc.getTime(),
                         value: -1,
                         obstacle: _name,
                       );
@@ -80,7 +80,7 @@ class _WTCState extends State<WTC> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'obstacle",
-                        time: timerBloc.time,
+                        time: timerBloc.getTime(),
                         value: int.parse(_sonctions[0]),
                         obstacle: _name,
                       );
@@ -89,7 +89,7 @@ class _WTCState extends State<WTC> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'obstacle",
-                        time: timerBloc.time,
+                        time: timerBloc.getTime(),
                         value: int.parse(_sonctions[1]),
                         obstacle: _name,
                       );
@@ -116,7 +116,7 @@ class _WTCState extends State<WTC> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: _success[counterBloc.count],
                   obstacle: _name,
                 );
@@ -143,7 +143,7 @@ class _WTCState extends State<WTC> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "annuler",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: _success[0],
                   obstacle: _name,
                 );

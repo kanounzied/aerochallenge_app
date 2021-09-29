@@ -108,7 +108,7 @@ class _AuschwitzState extends State<Auschwitz> {
                       () {
                         ActionHist act = new ActionHist(
                           type: "toucher d'un element",
-                          time: timerBloc.time,
+                          time: timerBloc.getTime(),
                           value: -1,
                           obstacle: _name,
                         );
@@ -117,7 +117,7 @@ class _AuschwitzState extends State<Auschwitz> {
                       () {
                         ActionHist act = new ActionHist(
                           type: "toucher d'obstacle",
-                          time: timerBloc.time,
+                          time: timerBloc.getTime(),
                           value: int.parse(_sonctions[0]),
                           obstacle: _name,
                         );
@@ -143,7 +143,7 @@ class _AuschwitzState extends State<Auschwitz> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: getScore(timerBloc1.time, timerBloc2.time),
                   obstacle: _name,
                 );
@@ -173,7 +173,7 @@ class _AuschwitzState extends State<Auschwitz> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "annulation",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: 0,
                   obstacle: _name,
                 );

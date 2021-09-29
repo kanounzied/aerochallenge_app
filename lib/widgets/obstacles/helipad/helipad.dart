@@ -28,8 +28,6 @@ class _HelipadState extends State<Helipad> {
   var _success = [-3, 5];
   bool _done = false;
 
-  // var x = dbInstance[];
-
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
@@ -63,20 +61,22 @@ class _HelipadState extends State<Helipad> {
                       () {
                         ActionHist act = new ActionHist(
                           type: "toucher d'un element",
-                          time: timerBloc.time,
+                          time: timerBloc.getTime(),
                           value: -1,
                           obstacle: _name,
                         );
-                        if (!_done) historique[widget.contestantId].add(act);
+                        historique[widget.contestantId].add(act);
                       },
                       () {
                         ActionHist act = new ActionHist(
                           type: "toucher d'obstacle",
-                          time: timerBloc.time,
+                          time: timerBloc.getTime(),
                           value: -3,
                           obstacle: _name,
                         );
-                        if (!_done) historique[widget.contestantId].add(act);
+                        historique[widget.contestantId].add(act);
+                        print(act.toString());
+                        print(historique);
                       }
                     ],
                   ))
@@ -98,17 +98,19 @@ class _HelipadState extends State<Helipad> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: _success[1],
                   obstacle: _name,
                 );
-                if (!_done) {
-                  historique[widget.contestantId].add(act);
-                  widget.cc.nextPage();
-                  setState(() {
-                    _done = !_done;
-                  });
-                }
+                // if (!_done) {
+                historique[widget.contestantId].add(act);
+                widget.cc.nextPage();
+                setState(() {
+                  _done = !_done;
+                });
+                //}
+                print(act.toString());
+                print(historique[widget.contestantId].toString());
               },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
@@ -124,11 +126,11 @@ class _HelipadState extends State<Helipad> {
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "failed",
-                  time: timerBloc.time,
+                  time: timerBloc.getTime(),
                   value: _success[0],
                   obstacle: _name,
                 );
-                if (!_done) historique[widget.contestantId].add(act);
+                historique[widget.contestantId].add(act);
               },
             ),
           ],

@@ -6,6 +6,7 @@ class Equipe {
   String chef;
   bool hasPlayed = false;
   List<dynamic> historique;
+  int homologationScore = 0;
 
   Equipe({this.name, this.members, this.chef});
 
@@ -17,5 +18,6 @@ class Equipe {
         members = map['members'],
         chef = map['chef'],
         hasPlayed = map['hasPlayed'],
-        historique = map['historique'];
+        historique = map['historique'],
+        homologationScore = map["homologationScore"];
 }

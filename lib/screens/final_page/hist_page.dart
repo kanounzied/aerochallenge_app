@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/constants/app_constants.dart';
+import 'package:aerochallenge_app/models/equipe.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/screens/home_page/home_page.dart';
 import 'package:aerochallenge_app/widgets/aero_button.dart';
@@ -12,8 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HistPage extends StatelessWidget {
-  const HistPage({Key key, this.contestantId}) : super(key: key);
+  const HistPage({Key key, this.contestantId, this.equipe}) : super(key: key);
   final String contestantId;
+  final Equipe equipe;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class HistPage extends StatelessWidget {
                 child: Center(
                   child: HistForm(
                     contestantId: contestantId,
+                    homologationScore: equipe.homologationScore,
                   ),
                 ),
               ),
@@ -57,7 +60,9 @@ class HistPage extends StatelessWidget {
                         maplist.add(element.toMap());
                         total += element.value;
                       });
-                      total -= (timerBloc.getSeconds() ~/ 50) * 2;
+                      total += (timerBloc.getSeconds() ~/ 50) * 2;
+                      // total +=  
+                      timerBloc.stopTimer();
                       dbInstance
                           .doc(contestantId)
                           .update({"historique": maplist, "total": total})

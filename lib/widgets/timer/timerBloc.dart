@@ -1,24 +1,60 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class TimerBloc extends ChangeNotifier {
-  String _time = "3:45";
-  String _minutes = "3";
-  String _seconds = "45";
+  Stopwatch stopwatch = new Stopwatch();
+  String minutesStr = "04";
+  String secondsStr = "00";
+  String millisecondsStr = "00";
+  IconData icon = Icons.play_arrow;
 
-  String get time => _time;
+  Timer timer;
+  Duration timerInterval = Duration(milliseconds: 10);
 
-  set time(String val) {
-    _time = val;
+  setTime() {
+    int time =
+        Duration(minutes: 4).inMilliseconds - stopwatch.elapsedMilliseconds;
+    if (time <= 0)
+      stopTimer();
+    else
+        minutesStr = (time / (1000 * 60)).floor().toString().padLeft(2, '0');
+        secondsStr = ((time / 1000) % 60).floor().toString().padLeft(2, '0');
+        millisecondsStr =
+            ((time / 10) % 100).floor().toString().padLeft(2, '0');
+  }
+
+  updateTimer(Timer t) {
+    if (stopwatch.isRunning) setTime();
     notifyListeners();
   }
 
-  int getSeconds(){
-    return int.parse(_minutes) * 60 + int.parse(_seconds);
+  startTimer() {
+      stopwatch.start();
+      timer = Timer.periodic(timerInterval, updateTimer);
+      icon = Icons.stop;
   }
 
-  void reset(){
-    _time = "00:00";
-    _minutes = "00";
-    _seconds = "00";
+  stopTimer() {
+      icon = Icons.replay;
+      stopwatch.stop();
+      // You can qlso set it to the time left, juste zid condition ya Zied
+        stopwatch.reset();
+        minutesStr = "00";
+        secondsStr = "00";
+        millisecondsStr = "00";
+  }
+
+  String getTime(){
+    return "$minutesStr:$secondsStr";
+  }
+
+  String getTimeWithMilliseconds(){
+    return "$minutesStr:$secondsStr:$millisecondsStr";
+  }
+
+  int getSeconds() {
+    return int.parse(minutesStr) * 60 + int.parse(secondsStr);
   }
 }
