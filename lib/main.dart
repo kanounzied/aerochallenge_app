@@ -1,3 +1,4 @@
+import 'package:aerochallenge_app/screens/game/done_bloc.dart';
 import 'package:aerochallenge_app/screens/home_page/home_page.dart';
 import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_lvl1/timer_bloc_1.dart';
 import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_lvl2/timer_bloc_2.dart';
@@ -14,10 +15,21 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => TimerBloc()),
-        ChangeNotifierProvider(create: (context) => CounterBloc()),
-        ChangeNotifierProvider(create: (context) => AuschwitzTimerBloc1(),),
-        ChangeNotifierProvider(create: (context) => AuschwitzTimerBloc2(),)
+        ChangeNotifierProvider(
+          create: (context) => TimerBloc(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CounterBloc(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuschwitzTimerBloc1(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuschwitzTimerBloc2(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DoneBloc(),
+        ),
       ],
       child: MyApp(),
     ),

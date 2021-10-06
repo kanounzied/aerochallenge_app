@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import '../aero_button.dart';
 
 class Sonctions extends StatelessWidget {
-  Sonctions({this.soncs, this.onPressed});
+  Sonctions({this.soncs, this.onPressed, this.done});
 
   final List<String> soncs;
   final List<Function> onPressed;
+  final bool done;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,9 @@ class Sonctions extends StatelessWidget {
         ),
         width: SizeConfig.defaultSize * 7,
         height: SizeConfig.defaultSize * 7,
-        color: AERO_BLUE,
+        color: done ? AERO_BLUE.withOpacity(0.7) : AERO_BLUE,
         textColor: DARK_COLOR,
-        onPressed: onPressed[0],
+        onPressed: done ? null : onPressed[0],
       ),
       SizedBox(
         height: SizeConfig.defaultSize * 4,
@@ -38,12 +39,15 @@ class Sonctions extends StatelessWidget {
         AeroButton(
           content: Text(
             s,
-            style: TextStyle(color: DARK_COLOR, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: done ? DARK_COLOR.withOpacity(0.7) : DARK_COLOR,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          color: AERO_BLUE,
+          color: done ? AERO_BLUE.withOpacity(0.7) : AERO_BLUE,
           width: SizeConfig.defaultSize * 7,
           height: SizeConfig.defaultSize * 7,
-          onPressed: onPressed[i++],
+          onPressed: done ? null : onPressed[i++],
         ),
       );
       tab.add(SizedBox(

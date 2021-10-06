@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 import '../../../aero_button.dart';
 
 class TimerAero2 extends StatelessWidget {
-  const TimerAero2({Key key}) : super(key: key);
+  const TimerAero2({Key key, this.done}) : super(key: key);
 final String level = "Niveau 2";
+final bool done;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ final String level = "Niveau 2";
               )
             ]),
           ),
-          color: timerBloc2.active ? AERO_YELLOW : AERO_RED,
+          color: timerBloc2.active ? AERO_YELLOW : done ? AERO_RED.withOpacity(0.5) : AERO_RED,
           width: SizeConfig.screenWidth * 0.38,
           height: SizeConfig.defaultSize * 5,
           onPressed: timerBloc2.active ? timerBloc2.stopTimer : timerBloc2.playOrResetTimer,
@@ -53,7 +54,7 @@ final String level = "Niveau 2";
           timerBloc2.time["minutes"]+":"+timerBloc2.time["seconds"]+":"+timerBloc2.time["milliseconds"],
           style: TextStyle(
             fontSize: SizeConfig.defaultSize * 1.8,
-            color: AERO_BLUE,
+            color: done ? AERO_BLUE.withOpacity(0.5) : AERO_BLUE,
           ),
         ),
       ],

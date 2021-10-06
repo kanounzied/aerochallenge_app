@@ -3,6 +3,7 @@ import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
 import 'package:aerochallenge_app/screens/game/game.dart';
 import 'package:aerochallenge_app/widgets/aero_button.dart';
+import 'package:aerochallenge_app/screens/game/done_bloc.dart';
 import 'package:aerochallenge_app/widgets/texts/aeroday_edition_text.dart';
 import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/custom_page_route.dart';
@@ -18,7 +19,6 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
-
     List<Color> colors = [
       AERO_RED,
       AERO_YELLOW,

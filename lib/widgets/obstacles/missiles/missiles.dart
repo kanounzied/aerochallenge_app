@@ -1,8 +1,8 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/screens/game/done_bloc.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
-import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:carousel_slider/carousel_controller.dart';
@@ -31,7 +31,6 @@ class _MissilesState extends State<Missiles> {
     "3": 30,
   };
   int _nMissiles = 0;
-  bool _done = false;
 
   Color _obs2Btn = AERO_RED;
   Color _obs3Btn = AERO_RED;
@@ -68,6 +67,7 @@ class _MissilesState extends State<Missiles> {
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+    final DoneBloc doneBloc = Provider.of<DoneBloc>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +89,9 @@ class _MissilesState extends State<Missiles> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/obstacles/' + _name + '.png',
+                        doneBloc.missiles
+                            ? 'assets/obstacles/' + _name + '_hashed.webp'
+                            : 'assets/obstacles/' + _name + '.webp',
                         width: SizeConfig.screenWidth * 0.5,
                         fit: BoxFit.fill,
                       ),
@@ -104,12 +106,13 @@ class _MissilesState extends State<Missiles> {
               Expanded(
                 flex: 2,
                 child: Sonctions(
+                  done: doneBloc.missiles,
                   soncs: _sonctions,
                   onPressed: [
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'un element",
-                        time: timerBloc.getTime(),
+                        time: timerBloc.getReversedTime(),
                         value: -1,
                         obstacle: _name,
                       );
@@ -118,7 +121,7 @@ class _MissilesState extends State<Missiles> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'obstacle",
-                        time: timerBloc.getTime(),
+                        time: timerBloc.getReversedTime(),
                         value: int.parse(_sonctions[0]),
                         obstacle: _name,
                       );
@@ -127,7 +130,7 @@ class _MissilesState extends State<Missiles> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "depasser hauteur",
-                        time: timerBloc.getTime(),
+                        time: timerBloc.getReversedTime(),
                         value: int.parse(_sonctions[1]),
                         obstacle: _name,
                       );
@@ -186,46 +189,47 @@ class _MissilesState extends State<Missiles> {
             AeroButton(
               content: Text(
                 'VALIDER',
-                style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
+                style: TextStyle(
+                    fontSize: SizeConfig.defaultSize * 1.65,
+                    color: doneBloc.missiles
+                        ? LIGHT_COLOR.withOpacity(0.5)
+                        : LIGHT_COLOR),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
-              color: AERO_BLUE,
+              color: doneBloc.missiles ? AERO_BLUE.withOpacity(0.5) : AERO_BLUE,
               textColor: LIGHT_COLOR,
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.getTime(),
+                  time: timerBloc.getReversedTime(),
                   value: _success[_nMissiles.toString()],
                   obstacle: _name,
                 );
-                if (!_done) {
+                if (!doneBloc.missiles) {
                   historique[widget.contestantId].add(act);
                   widget.cc.nextPage();
-                  setState(() {
-                    _done = !_done;
-                  });
+                  doneBloc.updateMissiles(true);
                 }
               },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
             AeroButton(
               content: Text(
-                'ANNULER',
-                style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
+                'RESET',
+                style: TextStyle(
+                  fontSize: SizeConfig.defaultSize * 1.65,
+                  color: doneBloc.missiles
+                      ? LIGHT_COLOR
+                      : LIGHT_COLOR.withOpacity(0.5),
+                ),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
-              color: AERO_RED,
+              color: doneBloc.missiles ? AERO_RED : AERO_RED.withOpacity(0.5),
               textColor: LIGHT_COLOR,
               onPressed: () {
-                ActionHist act = new ActionHist(
-                  type: "annuler",
-                  time: timerBloc.getTime(),
-                  value: 0,
-                  obstacle: _name,
-                );
-                historique[widget.contestantId].add(act);
+                doneBloc.updateMissiles(false);
               },
             ),
           ],

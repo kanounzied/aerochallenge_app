@@ -60,12 +60,13 @@ class HistPage extends StatelessWidget {
                         maplist.add(element.toMap());
                         total += element.value;
                       });
-                      total += (timerBloc.getSeconds() ~/ 50) * 2;
+                      total += (timerBloc.getSeconds() ~/ 5) * 2;
+                      print("total maghir homologation: " + total.toString());
                       // total +=  
                       timerBloc.stopTimer();
                       dbInstance
                           .doc(contestantId)
-                          .update({"historique": maplist, "total": total})
+                          .update({"historique": maplist, "total": total + equipe.homologationScore})
                           .then((value) => print("historique updated"))
                           .catchError((e) =>
                               print("db update error: " + e.toString()));

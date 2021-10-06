@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 import '../../../aero_button.dart';
 
 class TimerAero1 extends StatelessWidget {
-  const TimerAero1({Key key}) : super(key: key);
+  const TimerAero1({Key key, this.done}) : super(key: key);
   final String level = "Niveau 1";
+  final bool done;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class TimerAero1 extends StatelessWidget {
               )
             ]),
           ),
-          color: timerBloc1.active ? AERO_YELLOW : AERO_RED,
+          color: timerBloc1.active ? AERO_YELLOW : (done ? AERO_RED.withOpacity(0.5) : AERO_RED),
           width: SizeConfig.screenWidth * 0.38,
           height: SizeConfig.defaultSize * 5,
           onPressed: timerBloc1.active
@@ -59,7 +60,7 @@ class TimerAero1 extends StatelessWidget {
               timerBloc1.time["milliseconds"],
           style: TextStyle(
             fontSize: SizeConfig.defaultSize * 1.8,
-            color: AERO_BLUE,
+            color: done ? AERO_BLUE.withOpacity(0.5) : AERO_BLUE,
           ),
         ),
       ],

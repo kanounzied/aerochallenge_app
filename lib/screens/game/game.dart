@@ -39,7 +39,11 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
-    if (timerBloc.getTime() != "00:00") timerBloc.startTimer();
+    if (timerBloc.isFinished)
+      timerBloc.stopwatch.stop();
+    else if (timerBloc.getTime() != "00:00") timerBloc.startTimer();
+
+    if (historique[widget.equipe.id] == null) historique[widget.equipe.id] = [];
 
     List<Widget> _obsWidgets = [
       Helipad(
@@ -56,8 +60,6 @@ class _GameState extends State<Game> {
         equipe: widget.equipe,
       )
     ];
-
-    // if(historique[widget.equipe.id] == null ) historique[widget.equipe.id] = [];
 
     return Scaffold(
       appBar: AppbarAeroday.getAppbar(),
@@ -77,6 +79,7 @@ class _GameState extends State<Game> {
           ),
           Center(
             child: TimerAero(
+
                 //time: timerBloc.getTime(), //:$millisecondsStr",
                 ),
           ),

@@ -3,6 +3,7 @@ import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/action.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
 import 'package:aerochallenge_app/screens/final_page/hist_page.dart';
+import 'package:aerochallenge_app/screens/game/done_bloc.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/texts/obstacle_name_text.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
@@ -28,41 +29,46 @@ class _PodiumState extends State<Podium> {
   String _name = "podium";
   List<int> _success = [0, 25, 10, 5];
   int _placement = 0;
-  bool _done = false;
 
   Color _fstColor = AERO_YELLOW;
   Color _sndColor = Color(0xffc0c0c0);
   Color _thrdColor = Color(0xffCD7F32);
 
-  void change1Color(){
+  void change1Color() {
     setState(() {
-          if (_fstColor == AERO_YELLOW) _fstColor = AERO_YELLOW.withOpacity(0.5);
-          else _fstColor = AERO_YELLOW;
-          _sndColor = Color(0xffc0c0c0);
-          _thrdColor = Color(0xffCD7F32);
-        });
+      if (_fstColor == AERO_YELLOW)
+        _fstColor = AERO_YELLOW.withOpacity(0.5);
+      else
+        _fstColor = AERO_YELLOW;
+      _sndColor = Color(0xffc0c0c0);
+      _thrdColor = Color(0xffCD7F32);
+    });
   }
 
-  void change2Color(){
+  void change2Color() {
     setState(() {
-          if (_sndColor == Color(0xffc0c0c0)) _sndColor = Color(0xffc0c0c0).withOpacity(0.5);
-          else _sndColor = Color(0xffc0c0c0);
-          _fstColor = AERO_YELLOW;
-          _thrdColor = Color(0xffCD7F32);
-        });
+      if (_sndColor == Color(0xffc0c0c0))
+        _sndColor = Color(0xffc0c0c0).withOpacity(0.5);
+      else
+        _sndColor = Color(0xffc0c0c0);
+      _fstColor = AERO_YELLOW;
+      _thrdColor = Color(0xffCD7F32);
+    });
   }
 
-  void change3Color(){
+  void change3Color() {
     setState(() {
-          if (_thrdColor == Color(0xffCD7F32)) _thrdColor = Color(0xffCD7F32).withOpacity(0.5);
-          else _thrdColor = Color(0xffCD7F32);
-          _fstColor = AERO_YELLOW;
-          _sndColor = Color(0xffc0c0c0);
-        });
+      if (_thrdColor == Color(0xffCD7F32))
+        _thrdColor = Color(0xffCD7F32).withOpacity(0.5);
+      else
+        _thrdColor = Color(0xffCD7F32);
+      _fstColor = AERO_YELLOW;
+      _sndColor = Color(0xffc0c0c0);
+    });
   }
 
-  void _changePlacement(int p){
-    setState((){
+  void _changePlacement(int p) {
+    setState(() {
       _placement = p;
     });
   }
@@ -70,6 +76,7 @@ class _PodiumState extends State<Podium> {
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+    final DoneBloc doneBloc = Provider.of<DoneBloc>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +88,9 @@ class _PodiumState extends State<Podium> {
           children: [
             Center(
               child: Image.asset(
-                'assets/obstacles/' + _name + '.png',
+                doneBloc.podium
+                    ? 'assets/obstacles/' + _name + '_hashed.webp'
+                    : 'assets/obstacles/' + _name + '.webp',
                 width: SizeConfig.screenWidth * 0.7,
                 fit: BoxFit.fill,
               ),
@@ -136,45 +145,60 @@ class _PodiumState extends State<Podium> {
             AeroButton(
               content: Text(
                 'VALIDER',
-                style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
+                style: TextStyle(
+                    fontSize: SizeConfig.defaultSize * 1.65,
+                    color: doneBloc.podium
+                        ? LIGHT_COLOR.withOpacity(0.5)
+                        : LIGHT_COLOR),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
-              color: AERO_BLUE,
+              color: doneBloc.podium ? AERO_BLUE.withOpacity(0.5) : AERO_BLUE,
               textColor: LIGHT_COLOR,
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.getTime(),
+                  time: timerBloc.getReversedTime(),//tekhou time mta3 podium
                   value: _success[_placement],
                   obstacle: _name,
                 );
-                if (!_done) {
+                if (!doneBloc.podium) {
                   historique[widget.contestantId].add(act);
-                  setState(() {
-                    _done = !_done;
-                  });
-                  timerBloc.stopTimer();
+                  doneBloc.updatePodium(true);
+                  timerBloc.setIsFinished(true);
                 }
-                print("===================="+widget.contestantId);
+                print("====================" + widget.contestantId);
                 print(historique.toString());
                 Navigator.push(
-                  context, 
+                  context,
                   MaterialPageRoute(
-                                builder: (context) => HistPage(contestantId: widget.contestantId,equipe: widget.equipe,)));
+                    builder: (context) => HistPage(
+                      contestantId: widget.contestantId,
+                      equipe: widget.equipe,
+                    ),
+                  ),
+                );
+                // Reinitialize all obstacles state after the participant finishes all of them.
+                doneBloc.reinitialize();
               },
             ),
             SizedBox(width: SizeConfig.defaultSize * 3),
             AeroButton(
               content: Text(
-                'ANNULER',
-                style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
+                'RESET',
+                style: TextStyle(
+                    fontSize: SizeConfig.defaultSize * 1.65,
+                    color: doneBloc.podium
+                        ? LIGHT_COLOR
+                        : LIGHT_COLOR.withOpacity(0.5)),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
-              color: AERO_RED,
+              color: doneBloc.podium ? AERO_RED : AERO_RED.withOpacity(0.5),
               textColor: LIGHT_COLOR,
-              onPressed: () {},
+              onPressed: () {
+                doneBloc.updatePodium(false);
+              },
             ),
           ],
         ),

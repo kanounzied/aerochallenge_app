@@ -10,27 +10,6 @@ import 'package:provider/provider.dart';
 class CounterAero extends StatelessWidget {
   const CounterAero({Key key}) : super(key: key);
 
-//   @override
-//   _CounterAeroState createState() => _CounterAeroState();
-// }
-
-// class _CounterAeroState extends State<CounterAero>{
-  // int _count = 0;
-
-  // void _increment() {
-  //   setState(() {
-  //     if (_count < 3)
-  //     _count++;
-  //   });
-  // }
-
-  // void _decrement() {
-  //   setState(() {
-  //     if(_count >0)
-  //     _count--;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final CounterBloc counterBloc = Provider.of<CounterBloc>(context);

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TimerBloc extends ChangeNotifier {
@@ -9,9 +8,17 @@ class TimerBloc extends ChangeNotifier {
   String secondsStr = "00";
   String millisecondsStr = "00";
   IconData icon = Icons.play_arrow;
+  bool _isFinished = false;
 
   Timer timer;
   Duration timerInterval = Duration(milliseconds: 10);
+
+  bool get isFinished => _isFinished;
+
+  void setIsFinished(bool val){
+    _isFinished = val;
+    notifyListeners();
+  } 
 
   setTime() {
     int time =
@@ -56,5 +63,11 @@ class TimerBloc extends ChangeNotifier {
 
   int getSeconds() {
     return int.parse(minutesStr) * 60 + int.parse(secondsStr);
+  }
+
+  String getReversedTime(){
+    int minutes = 4 - int.parse(minutesStr);
+    int seconds = 59 - int.parse(secondsStr);
+    return "$minutes:$seconds";
   }
 }

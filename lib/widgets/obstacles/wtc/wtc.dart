@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/screens/game/done_bloc.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/obstacles/wtc/counter_aero.dart';
 import 'package:aerochallenge_app/widgets/obstacles/sonctions.dart';
@@ -26,12 +27,12 @@ class _WTCState extends State<WTC> {
   var _name = "WTC";
   var _sonctions = ["-5", "-10"];
   var _success = [-5, 10, 25, 40];
-  bool _done = false;
 
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
     final CounterBloc counterBloc = Provider.of<CounterBloc>(context);
+    final DoneBloc doneBloc = Provider.of<DoneBloc>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,7 +54,9 @@ class _WTCState extends State<WTC> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/obstacles/' + _name + '.png',
+                        doneBloc.wtc
+                            ? 'assets/obstacles/' + _name + '_hashed.webp'
+                            : 'assets/obstacles/' + _name + '.webp',
                         width: SizeConfig.screenWidth * 0.4,
                         fit: BoxFit.fill,
                       ),
@@ -66,12 +69,13 @@ class _WTCState extends State<WTC> {
               Expanded(
                 flex: 2,
                 child: Sonctions(
+                  done: doneBloc.wtc,
                   soncs: _sonctions,
                   onPressed: [
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'un element",
-                        time: timerBloc.getTime(),
+                        time: timerBloc.getReversedTime(),
                         value: -1,
                         obstacle: _name,
                       );
@@ -80,7 +84,7 @@ class _WTCState extends State<WTC> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'obstacle",
-                        time: timerBloc.getTime(),
+                        time: timerBloc.getReversedTime(),
                         value: int.parse(_sonctions[0]),
                         obstacle: _name,
                       );
@@ -89,7 +93,7 @@ class _WTCState extends State<WTC> {
                     () {
                       ActionHist act = new ActionHist(
                         type: "toucher d'obstacle",
-                        time: timerBloc.getTime(),
+                        time: timerBloc.getReversedTime(),
                         value: int.parse(_sonctions[1]),
                         obstacle: _name,
                       );
@@ -107,25 +111,32 @@ class _WTCState extends State<WTC> {
             AeroButton(
               content: Text(
                 'VALIDER',
-                style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
+                style: TextStyle(
+                  fontSize: SizeConfig.defaultSize * 1.65,
+                  color:
+                      doneBloc.wtc ? LIGHT_COLOR.withOpacity(0.5) : LIGHT_COLOR,
+                ),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
-              color: AERO_BLUE,
+              color: doneBloc.wtc ? AERO_BLUE.withOpacity(0.5) : AERO_BLUE,
               textColor: LIGHT_COLOR,
               onPressed: () {
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.getTime(),
+                  time: timerBloc.getReversedTime(),
                   value: _success[counterBloc.count],
                   obstacle: _name,
                 );
-                if (!_done) {
+                if (!doneBloc.wtc) {
                   historique[widget.contestantId].add(act);
                   widget.cc.nextPage();
-                  setState(() {
-                    _done = !_done;
-                  });
+                  print(
+                      "WTC STATE: " + doneBloc.wtc.toString());
+
+                  doneBloc.updateWTC(true);
+                  print(
+                      "WTC STATE: " + doneBloc.wtc.toString());
                 }
                 counterBloc.reset();
               },
@@ -133,21 +144,19 @@ class _WTCState extends State<WTC> {
             SizedBox(width: SizeConfig.defaultSize * 3),
             AeroButton(
               content: Text(
-                'ANNULER',
-                style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
+                'RESET',
+                style: TextStyle(
+                  fontSize: SizeConfig.defaultSize * 1.65,
+                  color:
+                      doneBloc.wtc ? LIGHT_COLOR : LIGHT_COLOR.withOpacity(0.5),
+                ),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
-              color: AERO_RED,
+              color: doneBloc.wtc ? AERO_RED : AERO_RED.withOpacity(0.5),
               textColor: LIGHT_COLOR,
               onPressed: () {
-                ActionHist act = new ActionHist(
-                  type: "annuler",
-                  time: timerBloc.getTime(),
-                  value: _success[0],
-                  obstacle: _name,
-                );
-                historique[widget.contestantId].add(act);
+                doneBloc.updateWTC(false);
                 counterBloc.reset();
               },
             ),

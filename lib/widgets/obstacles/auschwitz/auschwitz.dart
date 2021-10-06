@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/screens/game/done_bloc.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_lvl1/timer_aero1.dart';
 import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_lvl1/timer_bloc_1.dart';
@@ -31,7 +32,6 @@ class _AuschwitzState extends State<Auschwitz> {
     "niveau1": {"5": 25, "7": 40},
     "niveau2": {"5": 10, "7": 20},
   };
-  bool _done = false;
 
   Map<String, String> maxTime(
       Map<String, String> time1, Map<String, String> time2) {
@@ -66,6 +66,7 @@ class _AuschwitzState extends State<Auschwitz> {
         Provider.of<AuschwitzTimerBloc1>(context);
     final AuschwitzTimerBloc2 timerBloc2 =
         Provider.of<AuschwitzTimerBloc2>(context);
+    final DoneBloc doneBloc = Provider.of<DoneBloc>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,17 +84,19 @@ class _AuschwitzState extends State<Auschwitz> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Image.asset(
-                        'assets/obstacles/' + _name + '.png',
+                        doneBloc.auschwitz
+                            ? 'assets/obstacles/' + _name + '_hashed.webp'
+                            : 'assets/obstacles/' + _name + '.webp',
                         width: SizeConfig.screenWidth * 0.7,
                         fit: BoxFit.fill,
                       ),
                       Column(
                         children: [
-                          TimerAero1(),
+                          TimerAero1(done: doneBloc.auschwitz),
                           SizedBox(
                             height: SizeConfig.defaultSize * 2,
                           ),
-                          TimerAero2()
+                          TimerAero2(done: doneBloc.auschwitz),
                         ],
                       )
                     ],
@@ -101,30 +104,32 @@ class _AuschwitzState extends State<Auschwitz> {
                 ),
               ),
               Expanded(
-                  flex: 2,
-                  child: Sonctions(
-                    soncs: _sonctions,
-                    onPressed: [
-                      () {
-                        ActionHist act = new ActionHist(
-                          type: "toucher d'un element",
-                          time: timerBloc.getTime(),
-                          value: -1,
-                          obstacle: _name,
-                        );
-                        historique[widget.contestantId].add(act);
-                      },
-                      () {
-                        ActionHist act = new ActionHist(
-                          type: "toucher d'obstacle",
-                          time: timerBloc.getTime(),
-                          value: int.parse(_sonctions[0]),
-                          obstacle: _name,
-                        );
-                        historique[widget.contestantId].add(act);
-                      },
-                    ],
-                  ))
+                flex: 2,
+                child: Sonctions(
+                  done: doneBloc.auschwitz,
+                  soncs: _sonctions,
+                  onPressed: [
+                    () {
+                      ActionHist act = new ActionHist(
+                        type: "toucher d'un element",
+                        time: timerBloc.getReversedTime(),
+                        value: -1,
+                        obstacle: _name,
+                      );
+                      historique[widget.contestantId].add(act);
+                    },
+                    () {
+                      ActionHist act = new ActionHist(
+                        type: "toucher d'obstacle",
+                        time: timerBloc.getReversedTime(),
+                        value: int.parse(_sonctions[0]),
+                        obstacle: _name,
+                      );
+                      historique[widget.contestantId].add(act);
+                    },
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -134,25 +139,30 @@ class _AuschwitzState extends State<Auschwitz> {
             AeroButton(
               content: Text(
                 'VALIDER',
-                style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
+                style: TextStyle(
+                  fontSize: SizeConfig.defaultSize * 1.65,
+                  color: doneBloc.auschwitz
+                      ? LIGHT_COLOR.withOpacity(0.5)
+                      : LIGHT_COLOR,
+                ),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
-              color: AERO_BLUE,
-              textColor: LIGHT_COLOR,
+              color:
+                  doneBloc.auschwitz ? AERO_BLUE.withOpacity(0.5) : AERO_BLUE,
+              textColor: doneBloc.auschwitz ? LIGHT_COLOR.withOpacity(0.5): LIGHT_COLOR,
               onPressed: () {
+                print("WTC STATE : "+doneBloc.wtc.toString());
                 ActionHist act = new ActionHist(
                   type: "validation",
-                  time: timerBloc.getTime(),
+                  time: timerBloc.getReversedTime(),
                   value: getScore(timerBloc1.time, timerBloc2.time),
                   obstacle: _name,
                 );
-                if (!_done) {
+                if (!doneBloc.auschwitz) {
                   historique[widget.contestantId].add(act);
                   widget.cc.nextPage();
-                  setState(() {
-                    _done = !_done;
-                  });
+                  doneBloc.updateAuschwitz(true);
                 }
                 timerBloc1.stopTimer();
                 timerBloc1.resetWatch();
@@ -163,25 +173,24 @@ class _AuschwitzState extends State<Auschwitz> {
             SizedBox(width: SizeConfig.defaultSize * 3),
             AeroButton(
               content: Text(
-                'ANNULER',
-                style: TextStyle(fontSize: SizeConfig.defaultSize * 1.65),
+                'RESET',
+                style: TextStyle(
+                  fontSize: SizeConfig.defaultSize * 1.65,
+                  color: doneBloc.auschwitz
+                      ? LIGHT_COLOR
+                      : LIGHT_COLOR.withOpacity(0.5),
+                ),
               ),
               width: SizeConfig.screenWidth * 0.4,
               height: SizeConfig.defaultSize * 6,
-              color: AERO_RED,
+              color: doneBloc.auschwitz ? AERO_RED : AERO_RED.withOpacity(0.5),
               textColor: LIGHT_COLOR,
               onPressed: () {
-                ActionHist act = new ActionHist(
-                  type: "annulation",
-                  time: timerBloc.getTime(),
-                  value: 0,
-                  obstacle: _name,
-                );
-                historique[widget.contestantId].add(act);
                 timerBloc1.stopTimer();
                 timerBloc1.resetWatch();
                 timerBloc2.stopTimer();
                 timerBloc2.resetWatch();
+                doneBloc.updateAuschwitz(false);
               },
             ),
           ],
