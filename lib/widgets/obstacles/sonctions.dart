@@ -19,7 +19,7 @@ class Sonctions extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(
               0, 0, SizeConfig.defaultSize * 0.2, SizeConfig.defaultSize * 0.4),
           child: Image.asset(
-            'assets/obstacles/drone_hit.png',
+            'assets/obstacles/drone_hit.webp',
             width: SizeConfig.defaultSize * 4,
           ),
         ),

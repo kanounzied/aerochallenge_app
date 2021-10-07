@@ -2,6 +2,7 @@ import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/action.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
+import 'package:aerochallenge_app/widgets/dialogs/dialog_action.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +22,10 @@ class HistForm extends StatefulWidget {
 class _HistFormState extends State<HistForm> {
   SizeConfig sizeConfig = new SizeConfig();
 
+  final obstacleTextController = TextEditingController();
+  final typeTextController = TextEditingController();
+  final valueTextController = TextEditingController();
+
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
@@ -33,86 +38,6 @@ class _HistFormState extends State<HistForm> {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
 
     var actual = historique[widget.contestantId];
-    var test = [
-      ActionHist(
-          obstacle: "helipad",
-          time: "1:22",
-          type: "validationvalidationvalidation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "auschwitz",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "torii",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "wtc",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-      ActionHist(
-          obstacle: "podium",
-          time: "1:22",
-          type: "validation",
-          value: 5,
-          desc: "desxcription test"),
-    ];
     int total = 0;
     return Container(
       decoration: BoxDecoration(
@@ -213,10 +138,10 @@ class _HistFormState extends State<HistForm> {
                     headingRowHeight: 0,
                     columnSpacing: SizeConfig.defaultSize * 2,
                     columns: [
-                      DataColumn(label: Text("")), //Time")),
-                      DataColumn(label: Text("")), //Obstacle")),
-                      DataColumn(label: Text("")), //Type")),
-                      DataColumn(label: Text(""), numeric: true), //Valeur")),
+                      DataColumn(label: Text("")), //Time
+                      DataColumn(label: Text("")), //Obstacle
+                      DataColumn(label: Text("")), //Type
+                      DataColumn(label: Text(""), numeric: true), //Valeur
                     ],
                     rows: actual.map((e) {
                       total += e.value;
@@ -229,24 +154,33 @@ class _HistFormState extends State<HistForm> {
                       }
                       return DataRow(
                         cells: [
-                          DataCell(Center(
+                          DataCell(
+                            Center(
                               child: Text(
-                            e.time,
-                            textAlign: TextAlign.center,
-                          ))),
-                          DataCell(Center(
+                                e.time,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            Center(
                               child: Text(
-                            e.obstacle,
-                            textAlign: TextAlign.center,
-                          ))),
-                          DataCell(Container(
-                            child: Center(
+                                e.obstacle,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            Container(
+                              child: Center(
                                 child: Text(
-                              e.type,
-                              textAlign: TextAlign.center,
-                            )),
-                            width: SizeConfig.defaultSize * 10,
-                          )),
+                                  e.type,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              width: SizeConfig.defaultSize * 10,
+                            ),
+                          ),
                           DataCell(
                             Center(
                               child: Row(
@@ -291,7 +225,6 @@ class _HistFormState extends State<HistForm> {
                                   ),
                                 ),
                                 WidgetSpan(
-                                  // alignment: PlaceholderAlignment.middle,
                                   child: Icon(
                                     Icons.add,
                                     color: LIGHT_COLOR,
@@ -305,33 +238,210 @@ class _HistFormState extends State<HistForm> {
                           color: DARK_COLOR,
                           width: SizeConfig.screenWidth * 0.4,
                           height: SizeConfig.defaultSize * 4.5,
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return DialogAction(
+                                  title: "Add your action to history",
+                                  content: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0,
+                                            SizeConfig.defaultSize,
+                                            0,
+                                            SizeConfig.defaultSize),
+                                        width: SizeConfig.screenWidth * 0.5,
+                                        child: TextField(
+                                          controller: obstacleTextController,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Obstacle',
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0,
+                                            SizeConfig.defaultSize,
+                                            0,
+                                            SizeConfig.defaultSize),
+                                        width: SizeConfig.screenWidth * 0.5,
+                                        child: TextField(
+                                          controller: typeTextController,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Type',
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0,
+                                            SizeConfig.defaultSize,
+                                            0,
+                                            SizeConfig.defaultSize),
+                                        width: SizeConfig.screenWidth * 0.5,
+                                        child: TextField(
+                                          controller: valueTextController,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            labelText: 'Value',
+                                          ),
+                                          keyboardType: TextInputType.number,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  text: "Add",
+                                  onPressed: () {
+                                    ActionHist act = ActionHist(
+                                        obstacle: obstacleTextController.text,
+                                        time: "",
+                                        type: typeTextController.text,
+                                        value: int.parse(
+                                            valueTextController.text));
+                                    actual.add(act);
+                                    Navigator.of(context).pop();
+                                  },
+                                );
+                              },
+                            );
+                          },
                         ),
                       ],
                     ),
                   ),
                   Divider(color: Colors.black),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
+                    padding: EdgeInsets.fromLTRB(
                         0,
-                        /*SizeConfig.defaultSize*/ 20,
+                        SizeConfig.defaultSize * 2.0,
                         0,
-                        /*SizeConfig.defaultSize*/ 30),
+                        SizeConfig.defaultSize * 3.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(width: SizeConfig.defaultSize * 2),
-                            Text(
-                              "HOMOLOGATION : ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: SizeConfig.defaultSize * 1.6,
-                              ),
+                            Column(
+                              // column of score titles
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "HOMOLOGATION : ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: SizeConfig.defaultSize * 1.6,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.defaultSize * 2,
+                                ),
+                                Text(
+                                  "TIME SCORE : ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: SizeConfig.defaultSize * 1.6,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.defaultSize * 2,
+                                ),
+                                Text(
+                                  "OBSTACLES SCORE : ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: SizeConfig.defaultSize * 1.6,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(widget.homologationScore.toString()),
+                            Column(
+                              //column of scores
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(widget.homologationScore.toString()),
+                                SizedBox(
+                                  height: SizeConfig.defaultSize * 2,
+                                ),
+                                Text((timerBloc.getSeconds() ~/ 5 * 2)
+                                    .toString()),
+                                SizedBox(
+                                  height: SizeConfig.defaultSize * 2,
+                                ),
+                                Text((total - (timerBloc.getSeconds() ~/ 5 * 2))
+                                    .toString()),
+                              ],
+                            )
                           ],
+                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     SizedBox(width: SizeConfig.defaultSize * 2),
+                        //     Text(
+                        //       "HOMOLOGATION : ",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: SizeConfig.defaultSize * 1.6,
+                        //       ),
+                        //     ),
+                        //     Text(widget.homologationScore.toString()),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: SizeConfig.defaultSize * 2,
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     SizedBox(width: SizeConfig.defaultSize * 2),
+                        //     Text(
+                        //       "TIME SCORE : ",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: SizeConfig.defaultSize * 1.6,
+                        //       ),
+                        //     ),
+                        //     Text((timerBloc.getSeconds() ~/ 5 * 2).toString()),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: SizeConfig.defaultSize * 2,
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     SizedBox(width: SizeConfig.defaultSize * 2),
+                        //     Text(
+                        //       "OBSTACLES SCORE : ",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: SizeConfig.defaultSize * 1.6,
+                        //       ),
+                        //     ),
+                        //     Text((total - (timerBloc.getSeconds() ~/ 5 * 2))
+                        //         .toString()),
+                        //   ],
+                        // ),
+
+                        SizedBox(
+                          height: SizeConfig.defaultSize * 2,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: SizeConfig.defaultSize * 1.8),
+                          width: SizeConfig.screenWidth * 0.8,
+                          alignment: Alignment.topRight,
+                          child: Divider(
+                            thickness: SizeConfig.defaultSize * 0.2,
+                            color: DARK_COLOR,
+                          ),
                         ),
                         SizedBox(
                           height: SizeConfig.defaultSize * 2,

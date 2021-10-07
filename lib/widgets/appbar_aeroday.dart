@@ -11,7 +11,7 @@ class AppbarAeroday {
       toolbarHeight: SizeConfig.defaultSize * 7.0,
       backgroundColor: DARK_COLOR,
       title: Image.asset(
-        'assets/LogoWhite.png',
+        'assets/LogoWhite.webp',
         width: w < h
             ? SizeConfig.screenWidth * 0.4
             : SizeConfig.screenHeight * 0.4,

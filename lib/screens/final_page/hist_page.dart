@@ -62,16 +62,23 @@ class HistPage extends StatelessWidget {
                       });
                       total += (timerBloc.getSeconds() ~/ 5) * 2;
                       print("total maghir homologation: " + total.toString());
-                      // total +=  
                       timerBloc.stopTimer();
-                      dbInstance
+                      timerBloc.setIsFinished(false);
+                      Constants.dbInstance
                           .doc(contestantId)
-                          .update({"historique": maplist, "total": total + equipe.homologationScore})
+                          .update({
+                            "historique": maplist,
+                            "total": total + equipe.homologationScore
+                          })
                           .then((value) => print("historique updated"))
-                          .catchError((e) =>
-                              print("db update error: " + e.toString()));
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          .catchError(
+                              (e) => print("db update error: " + e.toString()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
                     },
                     width: SizeConfig.screenWidth * 0.8,
                     height: SizeConfig.defaultSize * 6,

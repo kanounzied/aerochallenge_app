@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
+import 'package:aerochallenge_app/constants/app_constants.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
+import 'package:aerochallenge_app/screens/final_page/hist_page.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/obstacles/auschwitz/auschwitz.dart';
@@ -39,6 +41,7 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+
     if (timerBloc.isFinished)
       timerBloc.stopwatch.stop();
     else if (timerBloc.getTime() != "00:00") timerBloc.startTimer();
@@ -61,14 +64,24 @@ class _GameState extends State<Game> {
       )
     ];
 
+    Widget finishText = Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(SizeConfig.defaultSize),
+        color: AERO_RED,
+      ),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(SizeConfig.defaultSize),
+          child: Text("FINISH!"),
+        ),
+      ),
+    );
+
     return Scaffold(
       appBar: AppbarAeroday.getAppbar(),
       backgroundColor: DARK_COLOR,
-      body:
-          // Padding(
-          //   padding: EdgeInsets.all(SizeConfig.defaultSize * 1.2),
-          //   child:
-          Column(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(
             height: SizeConfig.defaultSize * 1.5,
@@ -77,11 +90,114 @@ class _GameState extends State<Game> {
           SizedBox(
             height: SizeConfig.defaultSize * 2.5,
           ),
-          Center(
-            child: TimerAero(
-
-                //time: timerBloc.getTime(), //:$millisecondsStr",
+          Stack(
+            children: [
+              Align(
+                heightFactor: 2,
+                alignment: Alignment.center,
+                child: TimerAero(),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: PopupMenuButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        Constants.padding * SizeConfig.defaultSize),
+                  ),
+                  icon: Icon(
+                    Icons.more_vert_rounded,
+                    color: LIGHT_COLOR,
+                  ),
+                  color: LIGHT_COLOR,
+                  itemBuilder: (context) => [
+                    PopupMenuItem<int>(
+                      value: 0,
+                      child: Padding(
+                        padding: EdgeInsets.all(SizeConfig.defaultSize),
+                        child: Text(
+                          "Helipad",
+                          style: TextStyle(color: DARK_COLOR),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 1,
+                      child: Padding(
+                        padding: EdgeInsets.all(SizeConfig.defaultSize),
+                        child: Text(
+                          "WTC",
+                          style: TextStyle(color: DARK_COLOR),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 2,
+                      child: Padding(
+                        padding: EdgeInsets.all(SizeConfig.defaultSize),
+                        child: Text(
+                          "Auschwitz",
+                          style: TextStyle(color: DARK_COLOR),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 3,
+                      child: Padding(
+                        padding: EdgeInsets.all(SizeConfig.defaultSize),
+                        child: Text(
+                          "Torii",
+                          style: TextStyle(color: DARK_COLOR),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 4,
+                      child: Padding(
+                        padding: EdgeInsets.all(SizeConfig.defaultSize),
+                        child: Text(
+                          "Missiles",
+                          style: TextStyle(color: DARK_COLOR),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 5,
+                      child: Padding(
+                        padding: EdgeInsets.all(SizeConfig.defaultSize),
+                        child: Text(
+                          "Podium",
+                          style: TextStyle(color: DARK_COLOR),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 6,
+                      child: Padding(
+                        padding: EdgeInsets.all(SizeConfig.defaultSize),
+                        child: finishText,
+                      ),
+                    ),
+                  ],
+                  onSelected: (item) => {
+                    if (item == 6)
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HistPage(
+                              contestantId: widget.equipe.id,
+                              equipe: widget.equipe,
+                            ),
+                          ),
+                        ),
+                        timerBloc.setIsFinished(true)
+                      }
+                    else
+                      carouselController.jumpToPage(item)
+                  },
                 ),
+              )
+            ],
           ),
           SizedBox(
             height: SizeConfig.defaultSize * 2,
@@ -94,10 +210,9 @@ class _GameState extends State<Game> {
             ),
             items: _obsWidgets,
             carouselController: carouselController,
-          )
+          ),
         ],
       ),
-      // ),
     );
   }
 }

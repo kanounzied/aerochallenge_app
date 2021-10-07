@@ -2,8 +2,8 @@ import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
 import 'package:aerochallenge_app/screens/game/game.dart';
+import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/aero_button.dart';
-import 'package:aerochallenge_app/screens/game/done_bloc.dart';
 import 'package:aerochallenge_app/widgets/texts/aeroday_edition_text.dart';
 import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
 import 'package:aerochallenge_app/widgets/custom_page_route.dart';
@@ -18,15 +18,11 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
-    List<Color> colors = [
-      AERO_RED,
-      AERO_YELLOW,
-      AERO_BLUE,
-    ];
-
+    final TimerBloc timerBloc = Provider.of<TimerBloc>(context, listen: false);
     SizeConfig sizeConfig = new SizeConfig();
     sizeConfig.init(context);
+
+    print("test print from start page !!!");
 
     return Scaffold(
       appBar: AppbarAeroday.getAppbar(),
@@ -42,7 +38,7 @@ class StartPage extends StatelessWidget {
               flex: 6,
               child: Center(
                 child: Image.asset(
-                  'assets/drone.png',
+                  'assets/drone.webp',
                   width: SizeConfig.screenWidth * 0.65,
                 ),
               ),
@@ -66,6 +62,7 @@ class StartPage extends StatelessWidget {
                     timerBloc.minutesStr = "04";
                     timerBloc.secondsStr = "00";
                     timerBloc.millisecondsStr = "00";
+                    timerBloc.setIsFinished(false);
                   },
                   width: SizeConfig.screenWidth * 0.8,
                   height: SizeConfig.defaultSize * 6,

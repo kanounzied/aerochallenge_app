@@ -66,7 +66,7 @@ class TimerBloc extends ChangeNotifier {
   }
 
   String getReversedTime(){
-    int minutes = 4 - int.parse(minutesStr);
+    int minutes = 3 - int.parse(minutesStr);
     int seconds = 59 - int.parse(secondsStr);
     return "$minutes:$seconds";
   }

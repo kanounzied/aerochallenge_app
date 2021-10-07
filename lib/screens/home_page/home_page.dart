@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               flex: w < h ? 8 : 7,
               child: StreamBuilder<QuerySnapshot>(
-                      stream: dbInstance.snapshots(),
+                      stream: Constants.dbInstance.snapshots(),
                       builder: (
                         BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot,
