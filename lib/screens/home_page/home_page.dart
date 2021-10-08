@@ -19,20 +19,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   SizeConfig sizeConfig = new SizeConfig();
 
-// ---------------------------------------------------------
-  List<Equipe> participants = [
-    Equipe(chef: 'zied', members: ['zied', 'baha', 'ka3'], name: 'aa chmikh'),
-    Equipe(chef: 'baha', members: ['zied', 'baha', 'ka3'], name: 'aa chmikh'),
-    Equipe(chef: 'ka3', members: ['zied', 'baha', 'ka3'], name: 'caa hmikh'),
-    Equipe(chef: 'zied', members: ['zied', 'baha', 'ka3'], name: 'aa chmikh'),
-    Equipe(chef: 'baha', members: ['zied', 'baha', 'ka3'], name: 'aa chmikh'),
-    Equipe(chef: 'ka3', members: ['zied', 'baha', 'ka3'], name: 'caa hmikh'),
-    Equipe(chef: 'zied', members: ['zied', 'baha', 'ka3'], name: 'aa chmikh'),
-    Equipe(chef: 'baha', members: ['zied', 'baha', 'ka3'], name: 'aa chmikh'),
-    Equipe(chef: 'ka3', members: ['zied', 'baha', 'ka3'], name: 'caa hmikh'),
-  ];
-
-// ----------------------------------------------------------
   List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_BLUE];
   bool fromMockData = false;
 
@@ -50,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     var w = SizeConfig.screenWidth;
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppbarAeroday.getAppbar(),
       backgroundColor: DARK_COLOR,
       body: Padding(

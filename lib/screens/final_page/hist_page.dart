@@ -21,7 +21,10 @@ class HistPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
 
+    print("TEST HIST PAGE BUILD!!!");
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppbarAeroday.getAppbar(),
       backgroundColor: DARK_COLOR,
       body: Padding(
@@ -52,38 +55,37 @@ class HistPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: SizeConfig.defaultSize * 2),
                 child: AeroButton(
-                    content: Text('CONFIRM SCORE'),
-                    onPressed: () {
-                      List<Map<String, dynamic>> maplist = [];
-                      int total = 0;
-                      historique[contestantId].forEach((element) {
-                        maplist.add(element.toMap());
-                        total += element.value;
-                      });
-                      total += (timerBloc.getSeconds() ~/ 5) * 2;
-                      print("total maghir homologation: " + total.toString());
-                      timerBloc.stopTimer();
-                      timerBloc.setIsFinished(false);
-                      Constants.dbInstance
-                          .doc(contestantId)
-                          .update({
-                            "historique": maplist,
-                            "total": total + equipe.homologationScore
-                          })
-                          .then((value) => print("historique updated"))
-                          .catchError(
-                              (e) => print("db update error: " + e.toString()));
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(),
-                        ),
-                      );
-                    },
-                    width: SizeConfig.screenWidth * 0.8,
-                    height: SizeConfig.defaultSize * 6,
-                    color: AERO_RED,
-                    textColor: LIGHT_COLOR),
+                  content: Text('CONFIRM SCORE'),
+                  onPressed: () {
+                    timerBloc.stopTimer();
+                    timerBloc.setIsFinished(false);
+                    int timeScore = (timerBloc.getSeconds() ~/ 5) * 2;
+                    List<Map<String, dynamic>> maplist =
+                        []; // list of actions in map form
+                    int total = 0;
+                    historique[contestantId].forEach((element) {
+                      maplist.add(element.toMap());
+                      total += element.value;
+                    });
+                    total += timeScore;
+                    print("total without homologation: " + total.toString());
+                    total += equipe.homologationScore;
+
+                    Constants.dbInstance
+                        .doc(contestantId)
+                        .update({"historique": maplist, "total": total})
+                        .then((value) => print("historique updated"))
+                        .catchError(
+                            (e) => print("db update error: " + e.toString()));
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                        (Route<dynamic> route) => false);
+                  },
+                  width: SizeConfig.screenWidth * 0.8,
+                  height: SizeConfig.defaultSize * 6,
+                  color: AERO_RED,
+                  textColor: LIGHT_COLOR,
+                ),
               ),
             ],
           ),

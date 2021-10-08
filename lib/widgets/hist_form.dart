@@ -17,6 +17,7 @@ class HistForm extends StatefulWidget {
 
   @override
   _HistFormState createState() => _HistFormState();
+
 }
 
 class _HistFormState extends State<HistForm> {
@@ -25,6 +26,12 @@ class _HistFormState extends State<HistForm> {
   final obstacleTextController = TextEditingController();
   final typeTextController = TextEditingController();
   final valueTextController = TextEditingController();
+
+  @override
+  void dispose(){
+    print("HIST FORM DISPOSE CALLBACK///////////////////////////////////////////////////////////");
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -38,7 +45,9 @@ class _HistFormState extends State<HistForm> {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
 
     var actual = historique[widget.contestantId];
-    int total = 0;
+    int totalObstacles = 0;
+    int timeScore = timerBloc.getSeconds() ~/ 5 * 2;
+
     return Container(
       decoration: BoxDecoration(
         color: LIGHT_COLOR,
@@ -144,14 +153,9 @@ class _HistFormState extends State<HistForm> {
                       DataColumn(label: Text(""), numeric: true), //Valeur
                     ],
                     rows: actual.map((e) {
-                      total += e.value;
-                      print(e.obstacle);
-                      if (e.obstacle == "podium") {
-                        print(timerBloc.getSeconds());
-                        total += (timerBloc.getSeconds() ~/ 5) * 2;
-                        print("podium: " + e.value.toString());
-                        print(total);
-                      }
+                      totalObstacles += e.value;
+                      print("FROM HIST FORM :");
+                      print("obstacle : " + e.obstacle + ", score : " + e.value.toString());
                       return DataRow(
                         cells: [
                           DataCell(
@@ -369,13 +373,11 @@ class _HistFormState extends State<HistForm> {
                                 SizedBox(
                                   height: SizeConfig.defaultSize * 2,
                                 ),
-                                Text((timerBloc.getSeconds() ~/ 5 * 2)
-                                    .toString()),
+                                Text(timeScore.toString()),
                                 SizedBox(
                                   height: SizeConfig.defaultSize * 2,
                                 ),
-                                Text((total - (timerBloc.getSeconds() ~/ 5 * 2))
-                                    .toString()),
+                                Text(totalObstacles.toString()), //still didnt add time score to total
                               ],
                             )
                           ],
@@ -408,7 +410,7 @@ class _HistFormState extends State<HistForm> {
                         //         fontSize: SizeConfig.defaultSize * 1.6,
                         //       ),
                         //     ),
-                        //     Text((timerBloc.getSeconds() ~/ 5 * 2).toString()),
+                        //     Text(timeScore.toString()),
                         //   ],
                         // ),
                         // SizedBox(
@@ -425,7 +427,7 @@ class _HistFormState extends State<HistForm> {
                         //         fontSize: SizeConfig.defaultSize * 1.6,
                         //       ),
                         //     ),
-                        //     Text((total - (timerBloc.getSeconds() ~/ 5 * 2))
+                        //     Text((total + timeScore)
                         //         .toString()),
                         //   ],
                         // ),
@@ -436,7 +438,7 @@ class _HistFormState extends State<HistForm> {
                         Container(
                           padding: EdgeInsets.only(
                               left: SizeConfig.defaultSize * 1.8),
-                          width: SizeConfig.screenWidth * 0.8,
+                          width: SizeConfig.screenWidth * 0.6,
                           alignment: Alignment.topRight,
                           child: Divider(
                             thickness: SizeConfig.defaultSize * 0.2,
@@ -447,7 +449,7 @@ class _HistFormState extends State<HistForm> {
                           height: SizeConfig.defaultSize * 2,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(width: SizeConfig.defaultSize * 2),
                             Text(
@@ -457,7 +459,8 @@ class _HistFormState extends State<HistForm> {
                                 fontSize: SizeConfig.defaultSize * 1.6,
                               ),
                             ),
-                            Text((total + widget.homologationScore).toString()),
+                            SizedBox(width: SizeConfig.defaultSize * 2),
+                            Text((totalObstacles + widget.homologationScore + timeScore ).toString()),
                           ],
                         ),
                       ],

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/constants/app_constants.dart';
@@ -78,6 +76,7 @@ class _GameState extends State<Game> {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppbarAeroday.getAppbar(),
       backgroundColor: DARK_COLOR,
       body: Column(
@@ -205,7 +204,7 @@ class _GameState extends State<Game> {
           CarouselSlider(
             options: CarouselOptions(
               enableInfiniteScroll: false,
-              height: SizeConfig.screenHeight * 0.75,
+              height: SizeConfig.screenHeight * 0.7,
               viewportFraction: 1,
             ),
             items: _obsWidgets,

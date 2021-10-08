@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
+import 'package:aerochallenge_app/screens/game/done_bloc.dart';
 import 'package:aerochallenge_app/screens/game/game.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/aero_button.dart';
@@ -19,12 +20,14 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context, listen: false);
+    final DoneBloc doneBloc = Provider.of<DoneBloc>(context);
     SizeConfig sizeConfig = new SizeConfig();
     sizeConfig.init(context);
 
     print("test print from start page !!!");
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppbarAeroday.getAppbar(),
       backgroundColor: DARK_COLOR,
       body: Padding(
@@ -63,6 +66,7 @@ class StartPage extends StatelessWidget {
                     timerBloc.secondsStr = "00";
                     timerBloc.millisecondsStr = "00";
                     timerBloc.setIsFinished(false);
+                    doneBloc.reinitialize();                    
                   },
                   width: SizeConfig.screenWidth * 0.8,
                   height: SizeConfig.defaultSize * 6,
