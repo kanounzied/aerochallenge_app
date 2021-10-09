@@ -50,7 +50,7 @@ class _HelipadState extends State<Helipad> {
                         ? 'assets/obstacles/' + _name + '_hashed.webp'
                         : 'assets/obstacles/' + _name + '.webp',
                     width: SizeConfig.screenWidth * 0.5,
-                    fit: BoxFit.fill,
+                    // fit: BoxFit.fill,
                   ),
                 ),
               ),

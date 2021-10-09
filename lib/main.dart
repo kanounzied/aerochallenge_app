@@ -4,6 +4,7 @@ import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_lvl1/timer_b
 import 'package:aerochallenge_app/widgets/obstacles/auschwitz/timer_lvl2/timer_bloc_2.dart';
 import 'package:aerochallenge_app/widgets/obstacles/wtc/counter_bloc.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +32,10 @@ void main() async {
           create: (context) => DoneBloc(),
         ),
       ],
-      child: MyApp(),
+      child: DevicePreview(
+        enabled: false,
+        builder: (context) => MyApp(),
+      ),
     ),
   );
 }
@@ -45,6 +49,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
+      locale: DevicePreview.locale(context),
       debugShowCheckedModeBanner: false,
       title: 'Aerochallenge',
       home: HomePage(),

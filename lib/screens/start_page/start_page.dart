@@ -42,7 +42,7 @@ class StartPage extends StatelessWidget {
               child: Center(
                 child: Image.asset(
                   'assets/drone.webp',
-                  width: SizeConfig.screenWidth * 0.65,
+                  width: SizeConfig.screenWidth * 0.6,
                 ),
               ),
             ),
