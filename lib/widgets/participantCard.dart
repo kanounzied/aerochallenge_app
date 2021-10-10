@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
+import 'package:aerochallenge_app/screens/final_page/hist_page.dart';
 import 'package:aerochallenge_app/screens/start_page/start_page.dart';
 import 'package:flutter/material.dart';
 
@@ -46,13 +47,15 @@ class ParticipantCard extends StatelessWidget {
         child: InkWell(
           splashColor: color,
           onTap: () {
-            print(equipe.hasPlayed);
             !equipe.hasPlayed
                 ? Navigator.push(
                     context,
                     CustomPageRoute(child: StartPage(equipe: equipe)),
                   )
-                : print('do nothing');
+                : Navigator.push(
+                    context,
+                    CustomPageRoute(child: HistPage(equipe: equipe, contestantId: equipe.id, fromHome: true)),
+                  );
           },
           child: Padding(
             padding: EdgeInsets.all(_10 * 0.8),

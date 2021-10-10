@@ -13,13 +13,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HistPage extends StatelessWidget {
-  const HistPage({Key key, this.contestantId, this.equipe}) : super(key: key);
+  const HistPage({Key key, this.contestantId, this.equipe, this.fromHome}) : super(key: key);
   final String contestantId;
   final Equipe equipe;
+  final bool fromHome;
 
   @override
   Widget build(BuildContext context) {
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
+
+    var hist = equipe.hasPlayed ? equipe.historique : historique[contestantId];
 
     print("TEST HIST PAGE BUILD!!!");
 
@@ -46,6 +49,7 @@ class HistPage extends StatelessWidget {
                   child: HistForm(
                     contestantId: contestantId,
                     homologationScore: equipe.homologationScore,
+                    equipe: equipe,
                   ),
                 ),
               ),
@@ -59,11 +63,11 @@ class HistPage extends StatelessWidget {
                   onPressed: () {
                     timerBloc.stopTimer();
                     timerBloc.setIsFinished(false);
-                    int timeScore = (timerBloc.getSeconds() ~/ 5) * 2;
+                    int timeScore = equipe.hasPlayed ? 0 : (timerBloc.getSeconds() ~/ 5) * 2;
                     List<Map<String, dynamic>> maplist =
                         []; // list of actions in map form
                     int total = 0;
-                    historique[contestantId].forEach((element) {
+                    hist.forEach((element) {
                       maplist.add(element.toMap());
                       total += element.value;
                     });
@@ -73,7 +77,7 @@ class HistPage extends StatelessWidget {
 
                     Constants.dbInstance
                         .doc(contestantId)
-                        .update({"historique": maplist, "total": total})
+                        .update({"historique": maplist, "total": total, "hasPlayed": true})
                         .then((value) => print("historique updated"))
                         .catchError(
                             (e) => print("db update error: " + e.toString()));

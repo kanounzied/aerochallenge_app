@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/constants/app_constants.dart';
+import 'package:aerochallenge_app/models/action.dart';
 import 'package:aerochallenge_app/models/equipe.dart';
 import 'package:aerochallenge_app/widgets/texts/aeroday_edition_text.dart';
 import 'package:aerochallenge_app/widgets/appbar_aeroday.dart';
@@ -67,12 +68,13 @@ class _HomePageState extends State<HomePage> {
                         int i = 0;
                         print("=========");
                         return ListView(
-                          children: snapshot.data.docs.map(
+                          children: snapshot.data.docs.map<Widget>(
                             (document) {
                               Map<String, dynamic> data = document.data();
                               i++;
                               Equipe equipe = Equipe.fromMap(data);
                               equipe.id = document.id;
+                              if (data["historique"] != null) equipe.historique = (data['historique'] as List).map((e) => ActionHist.fromMap(e)).toList();
                               return Container(
                                 child: ParticipantCard(
                                   equipe: equipe,

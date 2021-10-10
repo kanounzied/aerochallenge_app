@@ -1,6 +1,7 @@
 import 'package:aerochallenge_app/config/responsive_size.dart';
 import 'package:aerochallenge_app/config/theme.dart';
 import 'package:aerochallenge_app/models/action.dart';
+import 'package:aerochallenge_app/models/equipe.dart';
 import 'package:aerochallenge_app/screens/game/history.dart';
 import 'package:aerochallenge_app/widgets/dialogs/dialog_action.dart';
 import 'package:aerochallenge_app/widgets/timer/timerBloc.dart';
@@ -10,14 +11,15 @@ import 'package:provider/provider.dart';
 import 'aero_button.dart';
 
 class HistForm extends StatefulWidget {
-  const HistForm({Key key, this.contestantId, this.homologationScore})
+  const HistForm(
+      {Key key, this.contestantId, this.homologationScore, this.equipe})
       : super(key: key);
   final String contestantId;
   final int homologationScore;
+  final Equipe equipe;
 
   @override
   _HistFormState createState() => _HistFormState();
-
 }
 
 class _HistFormState extends State<HistForm> {
@@ -28,8 +30,9 @@ class _HistFormState extends State<HistForm> {
   final valueTextController = TextEditingController();
 
   @override
-  void dispose(){
-    print("HIST FORM DISPOSE CALLBACK///////////////////////////////////////////////////////////");
+  void dispose() {
+    print(
+        "HIST FORM DISPOSE CALLBACK///////////////////////////////////////////////////////////");
     super.dispose();
   }
 
@@ -44,9 +47,14 @@ class _HistFormState extends State<HistForm> {
     sizeConfig.init(context);
     final TimerBloc timerBloc = Provider.of<TimerBloc>(context);
 
-    var actual = historique[widget.contestantId];
+    var actual = widget.equipe.hasPlayed
+        ? widget.equipe.historique
+        : historique[widget.contestantId];
     int totalObstacles = 0;
-    int timeScore = timerBloc.getSeconds() ~/ 5 * 2;
+    int timeScore =
+        widget.equipe.hasPlayed ? 0 : timerBloc.getSeconds() ~/ 5 * 2;
+
+    print("time score from hist form: " + timeScore.toString());
 
     return Container(
       decoration: BoxDecoration(
@@ -154,8 +162,11 @@ class _HistFormState extends State<HistForm> {
                     ],
                     rows: actual.map((e) {
                       totalObstacles += e.value;
-                      print("FROM HIST FORM :");
-                      print("obstacle : " + e.obstacle + ", score : " + e.value.toString());
+                      // print("FROM HIST FORM :");
+                      // print("obstacle : " +
+                      //     e.obstacle +
+                      //     ", score : " +
+                      //     e.value.toString());
                       return DataRow(
                         cells: [
                           DataCell(
@@ -201,7 +212,9 @@ class _HistFormState extends State<HistForm> {
                                       color: DARK_COLOR,
                                     ),
                                     onPressed: () {
-                                      actual.remove(e);
+                                      setState(() {
+                                        actual.remove(e);
+                                      });
                                     },
                                   ),
                                 ],
@@ -377,7 +390,8 @@ class _HistFormState extends State<HistForm> {
                                 SizedBox(
                                   height: SizeConfig.defaultSize * 2,
                                 ),
-                                Text(totalObstacles.toString()), //still didnt add time score to total
+                                Text(totalObstacles
+                                    .toString()), //still didnt add time score to total
                               ],
                             )
                           ],
@@ -460,7 +474,10 @@ class _HistFormState extends State<HistForm> {
                               ),
                             ),
                             SizedBox(width: SizeConfig.defaultSize * 2),
-                            Text((totalObstacles + widget.homologationScore + timeScore ).toString()),
+                            Text((totalObstacles +
+                                    widget.homologationScore +
+                                    timeScore)
+                                .toString()),
                           ],
                         ),
                       ],

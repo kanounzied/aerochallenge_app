@@ -26,4 +26,11 @@ class ActionHist {
       "desc": desc,
     };
   }
+
+  ActionHist.fromMap(Map<String, dynamic> map)
+      : type = map["type"],
+        time = map["time"],
+        value = map["value"],
+        obstacle = map["obstacle"],
+        desc = map["desc"];
 }
