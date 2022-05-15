@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "699812550971",
+    "project_id": "public-aerochallenge-app",
+    "storage_bucket": "public-aerochallenge-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699812550971:android:38aa445de411d8196b7f1e",
+        "android_client_info": {
+          "package_name": "com.aeroday.aerochallenge_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699812550971-g20dsilfoqagv02ftggu8oohi97k4oq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsPEJGfdykjqH9Lf65yfc1rLNnv5HMFKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699812550971-g20dsilfoqagv02ftggu8oohi97k4oq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
