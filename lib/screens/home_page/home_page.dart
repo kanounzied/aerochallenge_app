@@ -21,7 +21,27 @@ class _HomePageState extends State<HomePage> {
   SizeConfig sizeConfig = new SizeConfig();
 
   List<Color> colors = [AERO_RED, AERO_YELLOW, AERO_BLUE];
-  bool fromMockData = false;
+  List<Map<String, dynamic>> mockData = [
+    {
+      "id": 1,
+      "name": "equipe1",
+      "chef": "chef1",
+      "homologationScore": 0
+    },
+    {
+      "id": 2,
+      "name": "equipe2",
+      "chef": "chef2",
+      "homologationScore": 0
+    },
+    {
+      "id": 3,
+      "name": "equipe3",
+      "chef": "chef3",
+      "homologationScore": 0
+    },
+  ];
+  bool fromMockData = true;
 
   @override
   void initState() {
@@ -54,7 +74,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               flex: w < h ? 8 : 7,
-              child: StreamBuilder<QuerySnapshot>(
+              child: !fromMockData ? StreamBuilder<QuerySnapshot>(
                       stream: Constants.dbInstance.snapshots(),
                       builder: (
                         BuildContext context,
@@ -85,7 +105,21 @@ class _HomePageState extends State<HomePage> {
                           ).toList(),
                         );
                       },
-                    ),
+                    )
+              :
+              ListView(
+                children: mockData.map<Widget>( (data) {
+                    Equipe equipe = Equipe.fromMap(data);
+                    if (data["historique"] != null) equipe.historique = (data['historique'] as List).map((e) => ActionHist.fromMap(e)).toList();
+                    return Container(
+                      child: ParticipantCard(
+                        equipe: equipe,
+                        color: colors[int.parse(equipe.id) % 3],
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
             ),
           ],
         ),

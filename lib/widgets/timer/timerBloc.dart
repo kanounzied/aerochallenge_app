@@ -46,7 +46,7 @@ class TimerBloc extends ChangeNotifier {
   stopTimer() {
       icon = Icons.replay;
       stopwatch.stop();
-      // You can qlso set it to the time left, juste zid condition ya Zied
+      // You can qlso set it to the time left, juste add condition
         stopwatch.reset();
         minutesStr = "00";
         secondsStr = "00";
